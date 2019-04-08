@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>学生管理系统-登陆</title>
+    </head>
+
+    <style>
+
+        .back-image{
+
+        }
+        .login-block{
+            width:35%;
+            height: 25%;
+            margin: 100px auto;
+
+        }
+        input{
+            margin: 50px auto;
+            box-sizing: border-box;
+            text-align:center;
+            font-size:1.2em;
+            height:2.6em;
+            border-radius:5px;
+            border:1px solid #c8cccf;
+            color:#6a6f77;
+            -web-kit-appearance:none;
+            -moz-appearance: none;
+            display:block;
+            outline:0;
+            padding:0 1em;
+            text-decoration:none;
+            width:100%;
+        }
+        h1{
+            text-align:center ;
+            align-content: center;
+        }
+        #login{
+            width: 30%;
+            height: 40px;
+            margin-left: 35%;
+            margin-bottom: 10%;
+            background-color: grey; /* Green */
+            border: none;
+            color: white;
+            border-radius: 8px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            outline: none;
+            box-shadow: 2px 2px 4px grey;
+        }
+    </style>
+</head>
+<body><script src="lib/public/publicJS_1.js"></script>
+<div class="back-image">
+    <h1>欢迎使用学生管理系统</h1>
+    <div class="login-block">
+    <form id="loginId" name="form" accept-charset="utf-8"  action="/loginVerify" method="post">
+        <input type="text" class="account form-control" id="username" name="username" placeholder="请输入账号">
+        <input type=password class="password form-control" id="password" name="password" placeholder="请输入密码">
+        <div>
+            <input type="submit" id="login" value="登录"/>
+
+        </div>
+    </form>
+        <!--<button id="login">登陆</button>-->
+    </div>
+</div>
+</body>
+</html>
+<script src="lib/public/publicJS.js"></script>
+<!--<script src="sys/login/js/login.js"></script>-->
+
+<!--<script src="login.js"></script>-->

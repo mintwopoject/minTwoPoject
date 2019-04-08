@@ -1,0 +1,178 @@
+body {
+	padding: 0;
+	margin: 0;
+}
+
+* {
+	padding: 0;
+	margin: 0;
+	font-size: 16px;
+	font-family: 'microsoft yahei', 'Helvetica Neue', Helvetica, sans-serif;
+	-webkit-overflow-scrolling: touch;
+}
+
+span {
+	display: inline-block;
+}
+
+img,
+a {
+	display: block;
+}
+
+a,
+a:hover,
+a:active,
+a:focus {
+	cursor: pointer;
+	text-decoration: none;
+	outline: none;
+	star: expression(this.onFocus=this.blur());
+}
+
+ul,
+li {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+button,
+p,
+.row,
+.col-xs-1,
+.col-xs-2,
+.col-xs-3,
+.col-xs-4,
+.col-xs-5,
+.col-xs-6,
+.col-xs-7,
+.col-xs-8,
+.col-xs-9,
+.col-xs-10,
+.col-xs-11,
+.col-xs-12,
+.container {
+	padding: 0;
+	margin: 0;
+	font-weight: normal;
+}
+
+.clearfix {
+	*zoom: 1;
+	zoom: 1;
+}
+
+.clearfix:after {
+	content: '';
+	clear: both;
+	display: table;
+	visibility: hidden;
+	overflow: hidden;
+	width: 100%;
+}
+
+.nav-tabs,
+.nav-tabs li,
+.nav-tabs>li>a,
+.nav-tabs>li.active>a,
+.nav-tabs>li.active>a:hover,
+.nav-tabs>li.active>a:focus,
+.nav-tabs>li>a:hover,
+.nav>li>a:hover,
+.nav>li>a:focus {
+	border: none;
+	padding: 0;
+	background: none;
+	border-radius: 0;
+}
+
+.container {
+	width: 1200px;
+	position: relative;
+	margin: 0 auto;
+	left: 0;
+	right: 0;
+	padding: 0;
+}
+
+.row_top {
+	height: 50px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, .08);
+}
+
+.row_left,
+.row_right {
+	width: 230px;
+	height: 100%;
+	float: left;
+}
+
+.row_right {
+	width: calc( 100% - 290px);
+}
+
+.row_top_left {
+	background: #17b3a3;
+}
+
+.row_top_left h1 {
+	width: 100%;
+	line-height: 50px;
+	font-size: 20px;
+	color: #FFFFFF;
+	text-align: center;
+	font-weight: bold;
+}
+
+.row_top_right a {
+	width: 70px;
+	height: 50px;
+	float: right;
+	margin-right: 40px;
+}
+
+.row_top_right a img {
+	width: 36px;
+	height: auto;
+	float: left;
+	margin-top: 7px;
+}
+
+.row_top_right a p {
+	line-height: 50px;
+	color: #666666;
+	float: right;
+}
+
+.demo_container{
+	background: #f1f4f5 ;
+	position: fixed;
+	top: 50px;
+	bottom: 0;
+	right: 0;
+}
+
+.demo_container div{
+	background: #FFFFFF;
+	height: 500px;
+}
+
+.nav_left{
+	background: #263238;
+	position: fixed;
+	top: 50px;
+	bottom: 0;
+}
+
+.nav_left a,
+.nav_left span,
+.nav_left i{
+	color: #8a979e;
+}

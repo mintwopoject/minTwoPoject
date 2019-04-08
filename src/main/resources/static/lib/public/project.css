@@ -1,0 +1,26 @@
+._body{
+    margin-left: 20px;
+    margin-right: 25px;
+    overflow-y: scroll;
+}
+
+.no_scrollbar{
+    scrollbar-face-color: #fff;
+    scrollbar-arrow-color: #fff;
+    scrollbar-shadow-color: #fff;
+    scrollbar-highlight-color: #fff;
+    scrollbar-track-color: #fff;
+    width: calc(100% + 17px);
+}
+
+.padding_r{
+    padding-right: 20px;
+}
+
+#contract >.modal-lg{
+    width: 80%;
+}
+
+#contract >.modal-lg >.modal-content >.mt{
+    padding: 0 20px;
+}

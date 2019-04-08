@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Cache" content="no-cache">
+    <!--<meta http-equiv="Content-Type" content="multipart/form-data; charset=utf-8" />-->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Title</title>
+    <script src="/static/lib/public/publicCSS.js"></script>
+
+    <style>
+        .dropdown-menu{
+            height: 300px;
+            margin-left: 20px;
+            padding: 0 10px;
+        }
+        ::-webkit-scrollbar {display:none}
+    </style>
+</head>
+<body class="_body"><script src="/static/lib/public/publicJS_1.js"></script>
+
+<!-- 编辑 -->
+<div class="modal fade"  tabindex="-1" id="roleEditModel" role="dialog"  aria-hidden="true">
+    <div class="modal-dialog" style="">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" >
+                    修改角色
+                </h4>
+            </div>
+
+            <form id="roleEditFrom" class="form-horizontal" >
+                <div class="col-lg-12" style="margin-top: 20px;border-bottom:1px solid #e5e5e5" >
+                    <div class="form-group" id="parentNameAdd">
+                        <label class="col-lg-2 control-label" >部门名称</label>
+                        <div class="col-lg-9">
+                            <input type="text" class="form-control" id="roleName_Edit" name="roleName"  />
+                            <input type="hidden" id="id_Edit" name="id"  />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label" >拥有权限</label>
+                        <div class="col-lg-9">
+                            <!--<input type="text" class="form-control" id="useScopename_add" name="useScopename"  readonly/>-->
+                            <!--<textarea class="form-control" id="useScopename_add" name="useScopename" readonly rows="3"></textarea>-->
+                            <!--<input type="text" class="form-control" id="useScope_add" name="useScope" />-->
+                            <!--<div class="no_scrollbar" id="depttreeview_add" style="overflow:auto;height:180px;width: 100%"></div>-->
+                            <input type="text" class="form-control" id="useScopename_edit" name="useScopename"  readonly/>
+                            <input type="text" class="form-control" id="useScope_edit" name="useScope" />
+                            <div class="no_scrollbar" id="depttreeview_edit" style="overflow:auto;height:180px"></div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="modal-footer"  >
+                <div class="col-lg-9" style="margin-top: 8px">
+                    <!--<button type="button" class="btn btn-default"
+                            data-dismiss="modal">关闭
+                    </button>-->
+                </div>
+                <div class="col-lg-1" style="margin-top: 8px">
+                    <button type="button" id="roleEditButton" class="btn btn-primary">
+                        保存
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="toolbar" class="btn-group">
+    <button id="btn-add" type="button" class="btn btn-primary" data-toggle="modal" data-target="#templateadd">
+        <span  aria-hidden="true" ></span>新增
+    </button>
+    <button type="button" class="btn btn-primary" id="daochu">导出</button>
+</div>
+
+<section id="container">
+    <section id="main-content">
+        <section class="wrapper">
+        <div class="row">
+            <div class="panel-body">
+                <div class="panel panel-default" style="margin-top: -12px;margin-left: -13px;">
+                    <div class="panel-heading">查询条件</div>
+                    <div class="panel-body">
+                        <form id="usersearchform" class="form-horizontal">
+                            <div class="form-group" style="margin-top: 15px">
+                                <label class="control-label col-sm-1" for="username_search" style="width: 5em;padding: 0 ;line-height: 34px;margin-left: 20px;">用户名</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" id="username_search" name="username_search" placeholder="用户名">
+                                    <input type="hidden" name="currentpagecount" value="1" >
+                                </div>
+                                <label class="control-label col-sm-1" for="userType_search" style="width: 5em;padding: 0 ;line-height: 34px;margin-left: 20px;">用户类型</label>
+                                <div class="col-sm-2">
+                                    <select type="text" class="form-control" id="userType_search" name="userType_search">
+                                        <option value="">请选择</option>
+                                        <option value="sys">系统用户</option>
+                                        <option value="dd">钉钉用户</option>
+                                    </select>
+                                </div>
+                                <label class="control-label col-sm-1" for="status_search" style="width: 5em;padding: 0 ;line-height: 34px;margin-left: 20px;">状态</label>
+                                <div class="col-sm-2">
+                                    <select type="text" class="form-control" id="status_search" name="status_search">
+                                        <option value="">请选择</option>
+                                        <option value="1">正常</option>
+                                        <option value="0">禁用</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-2" style="text-align: left;">
+                                    <button type="button" id="usersearchbutton" class="btn btn-primary">查询</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt">
+
+            <div class="col-md-12">
+                <div class="content-panel" style="margin-top: -50px;margin-left: -13px;">
+                    <table data-show-columns="true" id="roleList" class="table table-striped table-advance table-hover table_song"></table>
+                </div>
+            </div>
+        </div>
+
+    </section>
+    </section>
+</section>
+</body>
+</html>
+<script src="/static/lib/public/publicJS.js"></script>
+<script src="/static/system/role/js/role.js"></script>

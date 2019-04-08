@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qujie.mintwo.system.menu.mapper.TbMenuMapper">
+
+    <select id="menuInfoList" resultType="com.qujie.mintwo.system.menu.entity.TbMenu">
+       select c.Id,c.Name text,c.ParentId,c.Code,c.LinkAddress,c.Icon,c.Sort,c.CreateTime,c.CreateBy,c.UpdateTime,c.UpdateBy from tbRole as a left join tbRoleMenu as b on a.Id=b.RoleId left join tbMenu as c on b.MenuId=c.Id where a.id=#{id}
+    </select>
+</mapper>
