@@ -31,8 +31,8 @@ public class TbUser {
     @TableField("Email")
     private String Email;
 
-    @TableField("IsAble")
-    private Boolean IsAble;
+//    @TableField("IsAble")
+//    private Boolean IsAble;
 
     @TableField("IfChangePwd")
     private Boolean IfChangePwd;
@@ -60,7 +60,8 @@ public class TbUser {
 
     @TableField("HZType")
     private String HZType;
-
+    @TableField(exist = false)
+    private String [] roleids;
 
     public Integer getId() {
         return Id;
@@ -110,13 +111,13 @@ public class TbUser {
         Email = email;
     }
 
-    public Boolean getAble() {
-        return IsAble;
-    }
-
-    public void setAble(Boolean able) {
-        IsAble = able;
-    }
+//    public Boolean getIsAble() {
+//        return IsAble;
+//    }
+//
+//    public void setIsAble(Boolean Isable) {
+//        IsAble = Isable;
+//    }
 
     public Boolean getIfChangePwd() {
         return IfChangePwd;
@@ -188,5 +189,13 @@ public class TbUser {
 
     public void setHZType(String HZType) {
         this.HZType = HZType;
+    }
+
+    public String[] getRoleids() {
+        return roleids;
+    }
+
+    public void setRoleids(String[] roleids) {
+        this.roleids = roleids;
     }
 }

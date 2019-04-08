@@ -524,7 +524,7 @@ ul.top-menu > li > a:hover, ul.top-menu > li > a:focus {
     /* Safari and Chrome */
     .dropdown-menu.extended  {
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.176) !important;
-    };
+    }
 }
 
 .dropdown-menu.extended li p {
@@ -709,7 +709,7 @@ ul.top-menu > li > a:hover, ul.top-menu > li > a:focus {
 }
 
 .log-arrow-up {
-    background: url("../img/arrow-up.png") no-repeat;
+    /*background: url("../img/arrow-up.png") no-repeat;*/
     width: 20px;
     height: 11px;
     position: absolute;
@@ -1104,7 +1104,7 @@ PANELS CONFIGURATIONS
 
 /* Weather 1 */
 .weather {
-    background: url(../img/weather.jpg) no-repeat center top;
+    /*background: url(../img/weather.jpg) no-repeat center top;*/
     text-align: center;
     background-position: center center;
 }
@@ -1250,7 +1250,7 @@ PANELS CONFIGURATIONS
 
 /* Instagram Panel*/
 .instagram-panel {
-    background: url(../img/instagram.jpg) no-repeat center top;
+    /*background: url(../img/instagram.jpg) no-repeat center top;*/
     text-align: center;
     background-position: center center;
 }
@@ -1294,9 +1294,9 @@ PANELS CONFIGURATIONS
 
 /* Soptify Panel */
 #spotify {
-    background: url(../img/lorde.jpg) no-repeat center top;
+    /*background: url(../img/lorde.jpg) no-repeat center top;*/
     margin-top: -15px;
-    background-attachment: relative;
+    /*background-attachment: relative;*/
     background-position: center center;
     min-height: 220px;
     width: 100%;
@@ -1338,9 +1338,9 @@ PANELS CONFIGURATIONS
 
 /* BLOG PANEL */
 #blog-bg {
-    background: url(../img/blog-bg.jpg) no-repeat center top;
+    /*background: url(../img/blog-bg.jpg) no-repeat center top;*/
     margin-top: -15px;
-    background-attachment: relative;
+    /*background-attachment: relative;*/
     background-position: center center;
     min-height: 150px;
     width: 100%;
@@ -1463,9 +1463,9 @@ PANELS CONFIGURATIONS
 /* PROFILE PANELS */
 /* Profile 01*/
 #profile-01 {
-    background: url(../img/profile-01.jpg) no-repeat center top;
+    /*background: url(../img/profile-01.jpg) no-repeat center top;*/
     margin-top: -15px;
-    background-attachment: relative;
+    /*background-attachment: relative;*/
     background-position: center center;
     min-height: 150px;
     width: 100%;
@@ -1511,9 +1511,9 @@ PANELS CONFIGURATIONS
 
 /* Profile 02*/
 #profile-02 {
-    background: url(../img/profile-02.jpg) no-repeat center top;
+    /*background: url(../img/profile-02.jpg) no-repeat center top;*/
     margin-top: -15px;
-    background-attachment: relative;
+    /*background-attachment: relative;*/
     background-position: center center;
     min-height: 200px;
     width: 100%;
@@ -1636,8 +1636,8 @@ PANELS CONFIGURATIONS
 
 /* Grid Showcase*/
 
-margin-bottom: 15px;
-}
+/*margin-bottom: 15px;*/
+/*}*/
 
 .show-grid [class^=col-] {
     padding-top: 10px;
@@ -1699,7 +1699,7 @@ margin-bottom: 15px;
 
 .project:hover .photo-wrapper {
     background-color: #4ECDC4;
-    background-image:url(../img/zoom.png);
+    /*background-image:url(../img/zoom.png);*/
     background-repeat:no-repeat;
     background-position:center;
     top: 0;
@@ -1795,8 +1795,8 @@ label {
     position: relative;
     text-align: left;
     width: 80px;
-    -webkit-mask: url('../img/mask.png') 0 0 no-repeat;
-    mask: url('../img/mask.png') 0 0 no-repeat;
+    /*-webkit-mask: url('../img/mask.png') 0 0 no-repeat;*/
+    /*mask: url('../img/mask.png') 0 0 no-repeat;*/
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -1902,8 +1902,8 @@ label {
 .switch-square {
     border-radius: 6px;
     -webkit-border-radius: 6px;
-    -webkit-mask: url('../img/mask.png') 0 0 no-repeat;
-    mask: url('../img/mask.png') 0 0 no-repeat;
+    /*-webkit-mask: url('../img/mask.png') 0 0 no-repeat;*/
+    /*mask: url('../img/mask.png') 0 0 no-repeat;*/
 }
 .switch-square > div.switch-off label {
     border-color: #7f8c9a;
@@ -3177,7 +3177,7 @@ ul.chat-available-user li a:hover {
     /* Safari and Chrome */
     .panel-footer.revenue-foot {
         margin-bottom: -4px;
-    };
+    }
 }
 
 

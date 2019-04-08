@@ -5,6 +5,7 @@ import com.qujie.mintwo.system.menu.entity.Menu;
 import com.qujie.mintwo.system.menu.entity.TbMenu;
 import com.qujie.mintwo.system.user.entity.TbUser;
 import com.qujie.mintwo.ustils.PageUtil;
+import com.qujie.mintwo.ustils.R;
 
 import java.util.List;
 import java.util.Map;
@@ -25,6 +26,12 @@ public interface ITbUserService extends IService<TbUser> {
      * @return
      */
     PageUtil userList(Map<String, Object> params);
+
+    boolean edit(TbUser tbUser);
+
+    boolean save(TbUser tbUser);
+
+    R getUserRole(Integer userId);
 
 
 

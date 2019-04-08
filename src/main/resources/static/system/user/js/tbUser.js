@@ -2,9 +2,9 @@ var selecttableid;
 $(document).ready(function(){
 
     window.operateEvents = {
-        'click .roleedit_button' : function(e, value, row) {
-            selecttableid=row.Id;
-            // roleInfo();
+        'click .useredit_button' : function(e, value, row) {
+            selecttableid=row.ID;
+            userInfo();
         },
     };
 
@@ -65,7 +65,8 @@ $(document).ready(function(){
                 field: 'Email',
                 title: '邮箱',
                 align:'center',
-            },{
+            }
+            /*,{
                 field: 'IsAble',
                 title: 'IsAble',
                 align:'center',
@@ -73,7 +74,8 @@ $(document).ready(function(){
                 field: 'IfChangePwd',
                 title: 'IfChangePwd',
                 align:'center',
-            },{
+            }*/
+            ,{
                 field: 'Description',
                 title: '描述',
                 align:'center',
@@ -111,7 +113,7 @@ $(document).ready(function(){
     function operateFormatter(value, row, index) {
         selecttableid=row.id;
         return [
-            '<button  type="button" title="修改" class="btn btn-primary btn-xs roleedit_button" id="roleEdit" data-toggle="modal" ><i class="fa fa-pencil"></i></button>',
+            '<button  type="button" title="修改" class="btn btn-primary btn-xs useredit_button" id="userEdit" data-toggle="modal" ><i class="fa fa-pencil"></i></button>',
             '<button  type="button" title="删除" class="btn btn-primary btn-xs roledel_button" id="templatedel" data-toggle="modal" data-target="#templatedel" style="background:#d9534f;border-color:#d9534f"><i class="fa fa-trash-o"></i></button>',
         ]
             .join('');
@@ -119,64 +121,101 @@ $(document).ready(function(){
     };
 
 });
-//菜单权限单条sgit remote rm origin
-function roleInfo() {
+//单条
+function userInfo() {
     new AjaxRequest({
-        url: "/role/tbRole/info/"+selecttableid,
+        url: "/system/tbUser/info/"+selecttableid,
         param: {},
         callBack: function (data) {
-            $('#roleEditFrom')[0].reset();
-            $('#roleEditFrom').initForm(data);
-            //生成树
-            var tree = data.id;
-            MyTreeView('depttreeview_edit','useScope_edit','useScopename_edit','/system/tbmenu/menuChachaox/'+tree,'{}','POST','2','请选择部门权限');
-            // MyTreeView('depttreeview_add','useScope_add','useScopename_add','/system/tbmenu/muenInfo/'+data.id,'{}','POST','1','请选择使用范围');
-            $("#roleEditModel").modal("show");
+            $('#userEditFrom')[0].reset();
+            $('#userEditFrom').initForm(data);
+            getRoleAll("roleList","update")
+            $("#userEditModel").modal("show");
         }
 
     })
 }
 
+
 //修改
-$("#roleEditButton").click(function () {
+$("#userEditButton").click(function () {
     // $("#contractCreationTemplateEditFrom").data('bootstrapValidator').validate();
     // if ($("#contractCreationTemplateEditFrom").data('bootstrapValidator').isValid()) {
     new AjaxRequest({
-        url: "/role/tbRole/edit",
-        param: $('#roleEditFrom').serializeJson(),
-        buttonid: 'roleEditButton',
-        tableurl: '/role/tbRole/roleList',
-        tableid: 'roleList',
+        url: "/system/tbUser/edit",
+        param: $('#userEditFrom').serializeJson(),
+        buttonid: 'userEditButton',
+        tableurl: '/system/tbUser/userList',
+        tableid: 'userList',
         tableparam: {currentpagecount: 1},
-        modalid: 'roleEditModel',
+        modalid: 'userEditModel',
         numberpage: true
     });
     // }
 })
 
 //新增
-$("#roleAddButton").click(function () {
+$("#userAddButton").click(function () {
     // $("#contractCreationTemplateEditFrom").data('bootstrapValidator').validate();
     // if ($("#contractCreationTemplateEditFrom").data('bootstrapValidator').isValid()) {
     new AjaxRequest({
-        url: "/role/tbRole/save",
-        param: $('#roleAddFrom').serializeJson(),
-        buttonid: 'roleAddButton',
-        tableurl: '/role/tbRole/roleList',
-        tableid: 'roleList',
+        url: "/system/tbUser/save",
+        param: $('#userAddFrom').serializeJson(),
+        buttonid: 'userAddButton',
+        tableurl: '/system/tbUser/userList',
+        tableid: 'userList',
         tableparam: {currentpagecount: 1},
-        modalid: 'roleAddModel',
+        modalid: 'userAddModel',
         numberpage: true
     });
     // }
-});
+})
 
 
 
-
+$("#btn-add").click(function () {
+    getRoleAll("roleList_Add","");
+})
 
 
 //批量操作获取的id
 $("#daochu").click(function () {
     selectId("userList");
 });
+
+
+function getRoleAll(inpId ,state){
+    var select = $("#"+inpId);
+    //回到初始状态
+    select.selectpicker('val',['noneSelectedText'])
+    select.html("");
+    //重新赋值
+    $("#"+inpId).selectpicker({
+        noneSelectedText : '请选择角色'//默认显示内容
+    });
+
+    new AjaxRequest({
+        url: "/role/tbRole/selectRoleList",
+        callBack:function (data) {
+            var results = data;
+            for(var i =0;i<results.length;i++){
+                select.append("<option class='form-control' value='"+results[i].id+"'>"+results[i].roleName+"</option>");
+            }
+            if(state == 'update'){
+                new AjaxRequest({
+                    url:   "/system/tbUser/getUserRole/"+selecttableid,
+                    asynctype:false,
+                    callBack:function (data) {
+                        //初始化数据刷新
+                        select.selectpicker('val', data.roleIds );
+                    }
+                });
+            }
+
+            //初始化数据刷新
+            $("#"+inpId).selectpicker('refresh');
+        }
+    });
+
+
+}

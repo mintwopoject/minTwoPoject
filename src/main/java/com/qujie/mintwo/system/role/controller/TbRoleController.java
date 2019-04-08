@@ -9,11 +9,13 @@ import com.qujie.mintwo.ustils.AbstractController;
 import com.qujie.mintwo.ustils.PageUtil;
 import com.qujie.mintwo.ustils.R;
 import net.sf.json.JSONArray;
+import org.apache.catalina.LifecycleState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -64,6 +66,13 @@ public class TbRoleController extends AbstractController {
         }else {
             return R.error("操作失败");
         }
+    }
+
+    //所有角色获取
+    @RequestMapping("/selectRoleList")
+    public List<TbRole> selectRoleList(){
+        List<TbRole> tbRoles = roleService.selectList(new EntityWrapper<>());
+        return tbRoles;
     }
 
 
