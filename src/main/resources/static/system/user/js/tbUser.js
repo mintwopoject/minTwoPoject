@@ -119,7 +119,7 @@ $(document).ready(function(){
     };
 
 });
-//菜单权限单条s
+//菜单权限单条sgit remote rm origin
 function roleInfo() {
     new AjaxRequest({
         url: "/role/tbRole/info/"+selecttableid,
