@@ -119,7 +119,7 @@ $(document).ready(function(){
     };
 
 });
-//菜单权限单条
+//菜单权限单条s
 function roleInfo() {
     new AjaxRequest({
         url: "/role/tbRole/info/"+selecttableid,
