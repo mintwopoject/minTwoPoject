@@ -159,3 +159,19 @@ $("#btn-add").click(function () {
 $("#daochu").click(function () {
     selectId("roleList");
 });
+
+
+$("#daoru").click(function(){
+    var formdata = new FormData($("#form_table")[0]);
+    $.ajax({
+        url: "/ustils/Excel/import",
+        type: "POST",
+        data:formdata,
+        dataType: "json",
+        processData: false,  // 告诉jQuery不要去处理发送的数据
+        contentType: false,   // 告诉jQuery不要去设置Content-Type请求头
+        success: function (res) {
+
+        }
+    })
+})

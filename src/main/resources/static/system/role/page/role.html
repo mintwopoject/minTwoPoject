@@ -127,7 +127,12 @@
     <button id="btn-add" type="button" class="btn btn-primary" data-toggle="modal" data-target="#roleAddModel">
         <span  aria-hidden="true" ></span>新增
     </button>
-    <button type="button" class="btn btn-primary" id="daochu">导出</button>
+    <a href="/ustils/Excel/export"><button type="button" class="btn btn-primary" id="daochu">导出</button></a>
+
+    <form class="form-horizontal" id="form_table"  enctype="multipart/form-data" >
+        <input class="form-input" type="file" name="filename" />
+        <button type="submit" class="btn btn-primary" id="daoru">导入</button>
+    </form>
 </div>
 
 <section id="container">

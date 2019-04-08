@@ -8,8 +8,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/system/generalMethod")
 public class GeneralMethod {
 
+    public static String [] arr;
+
     @RequestMapping("/batchId")
     public static String[] batchId(String [] ids){
+        arr=ids;
         return ids;
     }
 
