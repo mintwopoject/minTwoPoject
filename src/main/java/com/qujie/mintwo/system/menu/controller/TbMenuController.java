@@ -2,6 +2,7 @@ package com.qujie.mintwo.system.menu.controller;
 
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.qujie.mintwo.system.menu.entity.Menu;
 import com.qujie.mintwo.system.menu.entity.TbMenu;
 import com.qujie.mintwo.system.menu.service.ITbMenuService;
 import com.qujie.mintwo.system.roleMenu.entity.TbRoleMenu;
@@ -123,14 +124,17 @@ public class TbMenuController{
     /**
      * 获取所有选中的菜单
      */
-    @RequestMapping("/menuChachaox/{id}")
-    public List<TbMenu> menuChachaox(@PathVariable("id") Integer id){
-        List<TbMenu> tbMenus = tbMenuService.menuInfoList(id);
-        if (tbMenus.size()>0){
-            return tbMenus;
-        }else {
-            return null;
+    @PostMapping("/menuChachaox/{id}")
+    public List<Menu> menuChachaox(@PathVariable("id") Integer id){
+        List<TbRoleMenu> tbRoleMenus1 = roleMenuService.selectByIds(id);
+//        List<TbRoleMenu> tbRoleMenus = roleMenuService.selectList(new EntityWrapper<TbRoleMenu>().eq("RoleId", id));
+        List<Integer> list = new ArrayList<>();
+        for (int i = 0; i <tbRoleMenus1.size() ; i++) {
+            list.add(tbRoleMenus1.get(i).getMenuId());
         }
+        List<Menu> menus = tbMenuService.selectLists(list);
+//        JSONArray jsonArray = JSONArray.fromObject(menus);
+        return menus;
     }
 
 

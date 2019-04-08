@@ -16,8 +16,20 @@ import java.util.Map;
  * @since 2019-04-02
  */
 public interface ITbRoleService extends IService<TbRole> {
-
+    /**
+     * 角色列表
+     * @param params
+     * @return
+     */
     PageUtil roleList(Map<String, Object> params);
+    /**
+     * 根据id修改
+     */
+    boolean updateByIds(TbRole role);
+
+
+    boolean saves(TbRole role);
+
 
 
 

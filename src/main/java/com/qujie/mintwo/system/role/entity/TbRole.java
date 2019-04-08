@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.enums.IdType;
 
 import java.time.LocalDateTime;
 import java.io.Serializable;
+import java.util.Date;
 
 
 /**
@@ -36,16 +37,19 @@ public class TbRole implements Serializable {
     private String CreateBy;
 
     @TableField("CreateTime")
-    private LocalDateTime CreateTime;
+    private Date CreateTime;
 
     @TableField("UpdateBy")
     private String UpdateBy;
+
+    @TableField(exist = false)
+    private String menuids;
 
     /**
      * 修改时间
      */
     @TableField("UpdateTime")
-    private LocalDateTime UpdateTime;
+    private Date UpdateTime;
 
     public Integer getId() {
         return Id;
@@ -79,13 +83,6 @@ public class TbRole implements Serializable {
         CreateBy = createBy;
     }
 
-    public LocalDateTime getCreateTime() {
-        return CreateTime;
-    }
-
-    public void setCreateTime(LocalDateTime createTime) {
-        CreateTime = createTime;
-    }
 
     public String getUpdateBy() {
         return UpdateBy;
@@ -95,11 +92,27 @@ public class TbRole implements Serializable {
         UpdateBy = updateBy;
     }
 
-    public LocalDateTime getUpdateTime() {
+    public Date getCreateTime() {
+        return CreateTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        CreateTime = createTime;
+    }
+
+    public Date getUpdateTime() {
         return UpdateTime;
     }
 
-    public void setUpdateTime(LocalDateTime updateTime) {
+    public void setUpdateTime(Date updateTime) {
         UpdateTime = updateTime;
+    }
+
+    public String getMenuids() {
+        return menuids;
+    }
+
+    public void setMenuids(String menuids) {
+        this.menuids = menuids;
     }
 }

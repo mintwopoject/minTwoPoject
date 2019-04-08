@@ -30,6 +30,7 @@ public class TbRoleMenu implements Serializable {
     @TableField("MenuId")
     private Integer MenuId;
 
+
     public Integer getId() {
         return Id;
     }
@@ -53,4 +54,6 @@ public class TbRoleMenu implements Serializable {
     public void setMenuId(Integer menuId) {
         MenuId = menuId;
     }
+
+
 }

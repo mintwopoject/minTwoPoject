@@ -1,6 +1,7 @@
 package com.qujie.mintwo.system.menu.service;
 
 import com.baomidou.mybatisplus.service.IService;
+import com.qujie.mintwo.system.menu.entity.Menu;
 import com.qujie.mintwo.system.menu.entity.TbMenu;
 
 import java.util.List;
@@ -21,6 +22,9 @@ public interface ITbMenuService extends IService<TbMenu> {
     List<TbMenu> menuInfoList(Integer id);
 
     List<TbMenu> menuInfoLists(List<TbMenu> list);
+
+
+    List<Menu> selectLists(List<Integer> checkmenuid);
 
 
 

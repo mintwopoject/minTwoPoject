@@ -4,12 +4,12 @@ $(document).ready(function(){
     window.operateEvents = {
         'click .roleedit_button' : function(e, value, row) {
             selecttableid=row.Id;
-            roleInfo();
+            // roleInfo();
         },
     };
 
-    $("#roleList").bootstrapTable({
-        url: '/role/tbRole/roleList',                  //请求后台的URL（*）
+    $("#userList").bootstrapTable({
+        url: '/system/tbUser/userList',                  //请求后台的URL（*）
         method: 'post', //请求方式（*）
         toolbar: '#toolbar',              //工具按钮用哪个容器
         striped: true, //是否显示行间隔色
@@ -47,15 +47,39 @@ $(document).ready(function(){
                 field: '',
                 align: 'center',
                 formatter: function (value, row, index) {
-                    return getOrderNumber("roleList", index)
+                    return getOrderNumber("userList", index)
                 }
             },{
-                field: 'RoleName',
-                title: '部门名称',
+                field: 'AccountName',
+                title: '用户名',
                 align:'center',
             }, {
+                field: 'RealName',
+                title: '用户姓名',
+                align:'center',
+            }, {
+                field: 'MobilePhone',
+                title: '用户电话',
+                align:'center',
+            }, {
+                field: 'Email',
+                title: '邮箱',
+                align:'center',
+            },{
+                field: 'IsAble',
+                title: 'IsAble',
+                align:'center',
+            },{
+                field: 'IfChangePwd',
+                title: 'IfChangePwd',
+                align:'center',
+            },{
                 field: 'Description',
-                title: '拥有权限',
+                title: '描述',
+                align:'center',
+            }, {
+                field: 'HZType',
+                title: 'HZ型',
                 align:'center',
             }, {
                 field: 'CreateBy',
@@ -86,15 +110,15 @@ $(document).ready(function(){
 
     function operateFormatter(value, row, index) {
         selecttableid=row.id;
-            return [
-                '<button  type="button" title="修改" class="btn btn-primary btn-xs roleedit_button" id="roleEdit" data-toggle="modal" ><i class="fa fa-pencil"></i></button>',
-                '<button  type="button" title="删除" class="btn btn-primary btn-xs roledel_button" id="templatedel" data-toggle="modal" data-target="#templatedel" style="background:#d9534f;border-color:#d9534f"><i class="fa fa-trash-o"></i></button>',
-            ]
-                .join('');
+        return [
+            '<button  type="button" title="修改" class="btn btn-primary btn-xs roleedit_button" id="roleEdit" data-toggle="modal" ><i class="fa fa-pencil"></i></button>',
+            '<button  type="button" title="删除" class="btn btn-primary btn-xs roledel_button" id="templatedel" data-toggle="modal" data-target="#templatedel" style="background:#d9534f;border-color:#d9534f"><i class="fa fa-trash-o"></i></button>',
+        ]
+            .join('');
 
     };
 
-})
+});
 //菜单权限单条
 function roleInfo() {
     new AjaxRequest({
@@ -117,17 +141,17 @@ function roleInfo() {
 $("#roleEditButton").click(function () {
     // $("#contractCreationTemplateEditFrom").data('bootstrapValidator').validate();
     // if ($("#contractCreationTemplateEditFrom").data('bootstrapValidator').isValid()) {
-        new AjaxRequest({
-            url: "/role/tbRole/edit",
-            param: $('#roleEditFrom').serializeJson(),
-            buttonid: 'roleEditButton',
-            tableurl: '/role/tbRole/roleList',
-            tableid: 'roleList',
-            tableparam: {currentpagecount: 1},
-            modalid: 'roleEditModel',
-            numberpage: true
-        });
-   // }
+    new AjaxRequest({
+        url: "/role/tbRole/edit",
+        param: $('#roleEditFrom').serializeJson(),
+        buttonid: 'roleEditButton',
+        tableurl: '/role/tbRole/roleList',
+        tableid: 'roleList',
+        tableparam: {currentpagecount: 1},
+        modalid: 'roleEditModel',
+        numberpage: true
+    });
+    // }
 })
 
 //新增
@@ -147,15 +171,12 @@ $("#roleAddButton").click(function () {
     // }
 });
 
-$("#btn-add").click(function () {
-    MyTreeView('depttreeview_Add','useScope_Add','useScopename_Add','/system/tbmenu/menuList','{}','POST','1','请选择部门权限');
 
-})
 
 
 
 
 //批量操作获取的id
 $("#daochu").click(function () {
-    selectId("roleList");
+    selectId("userList");
 });

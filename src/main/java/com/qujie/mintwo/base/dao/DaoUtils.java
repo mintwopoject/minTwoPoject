@@ -35,8 +35,7 @@ public class DaoUtils<T> {
             PageUtils.setTotal(Integer.valueOf(bySql.get(0).get("listcount").toString()));
             PageUtils.setTotalPage((int)Math.ceil((double)PageUtils.getTotal()/PageUtils.getPageSize()));
         }
-
-        sql+= BetweenUtils.getFENYE()+ " between "+((PageUtils.getCurrPage()-1)*PageUtils.getPageSize())+" and "+ PageUtils.getPageSize();
+        sql+= BetweenUtils.getFENYE()+ " between "+((PageUtils.getCurrPage()-1)*PageUtils.getPageSize())+" and "+ PageUtils.getCurrPage()*PageUtils.getPageSize();
         PageUtils.setRows( baseDao.findBySql(sql));
         return PageUtils;
     }

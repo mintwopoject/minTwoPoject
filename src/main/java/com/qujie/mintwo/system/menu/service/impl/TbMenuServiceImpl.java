@@ -3,9 +3,11 @@ package com.qujie.mintwo.system.menu.service.impl;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.qujie.mintwo.base.dao.DaoUtils;
+import com.qujie.mintwo.system.menu.entity.Menu;
 import com.qujie.mintwo.system.menu.entity.TbMenu;
 import com.qujie.mintwo.system.menu.mapper.TbMenuMapper;
 import com.qujie.mintwo.system.menu.service.ITbMenuService;
+import com.qujie.mintwo.ustils.MenuUtils2;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -153,6 +155,24 @@ public class TbMenuServiceImpl extends ServiceImpl<TbMenuMapper, TbMenu> impleme
     public List<TbMenu> menuInfoList(Integer id) {
         List list = tbMenuMapper.menuInfoList(id);
         return list;
+    }
+
+    @Override
+    public List<Menu> selectLists(List<Integer> checkmenuid) {
+        String sql = " select * from tbMenu";
+        List<Map> bySql = daoUtils.findBySql(sql);
+        List<Menu> menus=new ArrayList<>();
+        for (Map sysTMenu : bySql) {
+            Menu menu=new Menu();
+            menu.setId(Integer.valueOf(sysTMenu.get("Id").toString()));
+            menu.setMenuFather(Integer.valueOf(sysTMenu.get("ParentId").toString()));
+            menu.setText(sysTMenu.get("Name").toString());
+            menu.setMenuOrder(Integer.valueOf(sysTMenu.get("Sort").toString()));
+            menus.add(menu);
+        }
+        List<Menu> tree = MenuUtils2.findTree(menus,checkmenuid);
+        return tree;
+
     }
 
 }

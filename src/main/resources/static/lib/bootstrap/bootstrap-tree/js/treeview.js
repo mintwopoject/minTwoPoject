@@ -15,88 +15,38 @@ var levels;
 var treemenuname;
 var textmsg;
 var oneChecked;
-var ID;
-function MyTreeView(treeId,treemenuId,treeName,url,params,type,openlevels,text,isOneChecked,id) {
+function MyTreeView(treeId,treemenuId,treeName,url,params,type,openlevels,text,isOneChecked) {
     oneChecked = isOneChecked;
     treeid="#"+treeId;
     treemenuid="#"+treemenuId;
     levels=openlevels;
     treemenuname="#"+treeName;
     textmsg=text;
-    ID=id;
     new AjaxRequest({
         url:  url,
         type: type,
         param: params,
         callBack: function (data) {
-            treedata= data;
+            treedata= "[";
+            for(let k in data){
+                if(k==data.length-1){
+                    treedata+= JSON.stringify(data[k]);
+                }else{
+                    treedata+= JSON.stringify(data[k])+",";
+                }
+
+            }
+            treedata+= "]";
             initmenuTree();
             f();
 
-            infoLists();
-
         }
     });
 
 }
-var infoList;
-function infoLists() {
-    new AjaxRequest({
-        url:  '/system/tbmenu/muenInfo/'+ID,
-        type: 'POST',
-        callBack: function (data) {
-            infoList=data;
-            f3();
-            f1();
-            f2()
-        }
-    });
-}
-var nodes1=[];
-function f3() {
-    for (let i = 0; i <infoList.length ; i++) {
-        var nodes = infoList[i].nodes;
-        for (let j = 0; j <nodes.length ; j++) {
-            nodes1.push(nodes[i])
-        }
-    }
-}
-
-
-var arr=[];
-function f1() {
-    for (let i = 0; i <treedata.length ; i++) {
-        var nodes = treedata[i].nodes;
-        for (let j = 0; j <nodes.length ; j++) {
-            if (nodes[j]!=null||nodes[j]!=""){
-                arr.push(nodes[j])
-            }
-        }
-    }
-}
-
-function f2() {
-    for (let i = 0; i <arr.length ; i++) {
-        if (arr[i]!=null||arr[i]!=""){
-            for (let j = 0; j <nodes1.length ; j++) {
-                if (nodes1[j]!=null||nodes1[j]!=""){
-                    if (arr[i].id==nodes1[j].id) {
-                        nodes1[i]['state'] = {checked:true};
-                    }
-                }
-            }
-        }
-
-    }
-}
-
-
-
-
 function getTree(){
     return treedata;
 }
-
 function initmenuTree() {
     var checked = true;
     if(oneChecked){
@@ -146,7 +96,7 @@ function nodeUnchecked(event, node) {
     nodeUncheckedSilent = false;
     f();
 }
-//获取所有选中节点id
+
 function f() {
     var treeselectid=$(treeid).treeview('getChecked');
     $(treemenuname).val("").change();
@@ -224,7 +174,7 @@ function uncheckAllSon(node) {
 function itemOnclick(target) {
     //找到当前节点id
     var nodeid = $(target).attr('data-nodeid');
-    var tree = $('#tree');
+    var tree = $('#menutree');
     //获取当前节点对象
     treenode = tree.treeview('getNode', nodeid);
 }
