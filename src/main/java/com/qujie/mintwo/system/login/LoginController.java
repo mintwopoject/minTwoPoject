@@ -18,9 +18,9 @@ public class LoginController extends AbstractController {
     private ITbUserService userService;
 
     @PostMapping("/login")
-    public boolean login(String AccountName,String password, HttpSession session){
+    public boolean login(String AccountName,String Password, HttpSession session){
 
-        TbUser tbUser = userService.selectOne(new EntityWrapper<TbUser>().eq("AccountName", AccountName).eq("password", MD5Utils.getMD5Code(password)));
+        TbUser tbUser = userService.selectOne(new EntityWrapper<TbUser>().eq("AccountName", AccountName).eq("Password", MD5Utils.getMD5Code(Password)));
         if (tbUser!=null){
             session.setAttribute("AccountName",AccountName);
             return true;
