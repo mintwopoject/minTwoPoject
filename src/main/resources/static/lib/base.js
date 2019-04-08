@@ -388,8 +388,6 @@ function itemOnclick(target) {
     //     toastr_success(treeview)
     // }
 
-
-
 }
 //获取当前选中id
 function selectId(tableId) {
