@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
 
-    <title>学生管理系统-登陆</title>
+    <title>小二管理系统-登陆</title>
     </head>
 
     <style>
@@ -58,9 +58,9 @@
 </head>
 <body><script src="lib/public/publicJS_1.js"></script>
 <div class="back-image">
-    <h1>欢迎使用学生管理系统</h1>
+    <h1>小二管理系统</h1>
     <div class="login-block">
-    <form id="loginId" name="form" accept-charset="utf-8"  action="/loginVerify" method="post">
+    <form id="loginId" name="form" accept-charset="utf-8"  action="/sys/login" method="post">
         <input type="text" class="account form-control" id="username" name="username" placeholder="请输入账号">
         <input type=password class="password form-control" id="password" name="password" placeholder="请输入密码">
         <div>
@@ -68,12 +68,9 @@
 
         </div>
     </form>
-        <!--<button id="login">登陆</button>-->
     </div>
 </div>
 </body>
 </html>
 <script src="lib/public/publicJS.js"></script>
-<!--<script src="sys/login/js/login.js"></script>-->
-
-<!--<script src="login.js"></script>-->
+<script language=javascript src='/static/system/login/js/login.js'></script>
