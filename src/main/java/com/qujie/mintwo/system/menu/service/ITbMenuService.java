@@ -18,6 +18,8 @@ import java.util.Map;
 public interface ITbMenuService extends IService<TbMenu> {
 
     List<TbMenu> menuList();
+    //查询所有导航栏菜单
+    List<TbMenu> navList(List<TbMenu> tbMenus);
 
     List<TbMenu> menuInfoList(Integer id);
 

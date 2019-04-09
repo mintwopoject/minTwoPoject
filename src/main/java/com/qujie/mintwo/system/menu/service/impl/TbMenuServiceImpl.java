@@ -12,10 +12,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * <p>
@@ -174,5 +171,85 @@ public class TbMenuServiceImpl extends ServiceImpl<TbMenuMapper, TbMenu> impleme
         return tree;
 
     }
+
+
+
+
+
+    //查询菜单
+    public List<TbMenu> navList(List<TbMenu> tbMenus){
+
+        List<TbMenu> menuList = new ArrayList<TbMenu>();
+        // 先找到所有的一级菜单
+        for (int i = 0; i < tbMenus.size(); i++) {
+            // 一级菜单没有parentId
+            if (tbMenus.get(i).getParentId()==0) {
+                menuList.add(tbMenus.get(i));
+            }
+        }
+        Collections.sort(menuList, sort());
+        for (int i = 0; i <menuList.size() ; i++) {
+            List<TbMenu> child = getChild2(String.valueOf(menuList.get(i).getId()), tbMenus);
+            menuList.get(i).setNodes(child);
+        }
+        /*for (TbMenu menu : menuList) {
+            //将父节点和所有节点传入得到所有子节点
+            menu.setChildMenus(getChild(menu.getId(), tbMenus));
+        }*/
+        Map<String,Object> jsonMap = new HashMap<>();
+        jsonMap.put("menu", menuList);
+        return menuList;
+//        return jsonMap;
+
+    }
+
+    //查询所有子菜单
+    private List<TbMenu> getChild2(String id, List<TbMenu> rootMenu) {
+        // 子菜单
+        List<TbMenu> childList = new ArrayList<>();
+        for (TbMenu menu : rootMenu) {
+            // 遍历所有节点，将父菜单id与传过来的id比较
+//            if (menu.getParentId()!=null) {
+            //判断子父节点是否相等
+            if (id.equals(String.valueOf(menu.getParentId()))) {
+                //相等则add
+                childList.add(menu);
+            }
+//            }
+        }
+
+
+        // 把子菜单的子菜单再循环一遍
+        Collections.sort(childList, sort());
+        for (TbMenu menu : childList) {// 没有url子菜单还有子菜单
+            if (StringUtils.isBlank(menu.getLinkAddress())) {
+                // 递归
+                menu.setNodes(getChild2(String.valueOf(menu.getId()), rootMenu));
+            }
+        }
+        // 递归退出条件
+        if (childList.size() == 0) {
+            return null;
+        }
+        return childList;
+    }
+
+
+    /*
+     * 排序,根据order排序
+     */
+    public static Comparator<TbMenu> sort(){
+        Comparator<TbMenu> comparator = new Comparator<TbMenu>() {
+            @Override
+            public int compare(TbMenu o1, TbMenu o2) {
+                if(o1.getSort() != o2.getSort()){
+                    return o1.getSort() - o2.getSort();
+                }
+                return 0;
+            }
+        };
+        return comparator;
+    }
+
 
 }

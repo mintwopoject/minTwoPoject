@@ -29,7 +29,7 @@ public class LoginController extends AbstractController {
 
     }
 
-    @RequestMapping(value = "/AccountName", produces = { "application/json;charset=UTF-8" })
+   /* @RequestMapping(value = "/AccountName", produces = { "application/json;charset=UTF-8" })
     public String AccountName(HttpServletRequest request){
         HttpSession session =  request.getSession();
         Object accountName =  session.getAttribute("AccountName");
@@ -37,7 +37,7 @@ public class LoginController extends AbstractController {
         String realName = tbUser.getRealName();
 //        System.out.println(realName);
         return realName;
-    }
+    }*/
 
 
 

@@ -258,7 +258,7 @@
 			$(function () {
 				$("#sidebar").height($(window).height()-$("#navbar").height()-40);
 				$.ajax({
-						url:"/system/tbmenu/menuList",
+						url:"/system/tbmenu/navList",
 						success:function (data) {
 							$('#menu').sidebarMenu({
 								data: data

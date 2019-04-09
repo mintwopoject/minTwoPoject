@@ -56,7 +56,30 @@ public class MenuUtils2 {
             for (Menu nav : rootMenu) {
                 /* 获取根节点下的所有子节点 使用getChild方法*/
                 List<Menu> childList = getChild(String.valueOf(nav.getId()), allMenu,checkmenuid);
-                nav.setNodes(childList);//给根节点设置子节点
+
+                //判断是否选中父节点
+                boolean checkStatus = false;
+                if(childList.size()>0){
+                    nav.setNodes(childList);//给根节点设置子节点
+                    for (Menu tem:childList
+                    ) {
+                        Map<String,Object> temMap = tem.getState();
+                        if(temMap!=null){
+                            boolean childChecked = (boolean)temMap.get("checked");
+                            if(childChecked){
+                                checkStatus = true;
+                                break;
+                            }
+                        }
+
+                    }
+                }
+
+                if(checkStatus){
+                    Map<String, Object> map = new HashMap<String, Object>();
+                    map.put("checked", true);
+                    nav.setState(map);
+                }
             }
             /**
              * 输出构建好的菜单数据。
@@ -145,11 +168,13 @@ public class MenuUtils2 {
             // 遍历所有节点，将所有菜单的父id与传过来的根节点的id比较
             //相等说明：为该根节点的子节点。
             if(nav.getMenuFather().equals(Integer.valueOf(id))){
+                boolean checkStatus = false;
                 if(checkmenuid!=null && checkmenuid.size()>0 && checkmenuid.contains(nav.getId())){
-                    Map<String, Object> map = new HashMap<String, Object>();
-                    map.put("checked", true);
-                    nav.setState(map);
+                    checkStatus= true;
                 }
+                Map<String, Object> map = new HashMap<String, Object>();
+                map.put("checked", checkStatus);
+                nav.setState(map);
                 childList.add(nav);
             }
         }
