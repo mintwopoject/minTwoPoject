@@ -1,10 +1,14 @@
 var selecttableid;
+var currentpagecount;
 $(document).ready(function(){
 
     window.operateEvents = {
         'click .roleedit_button' : function(e, value, row) {
             selecttableid=row.Id;
             roleInfo();
+        },
+        'click .roledelete_button' : function(e, value, row) {
+            selecttableid=row.Id;
         },
     };
 
@@ -88,7 +92,7 @@ $(document).ready(function(){
         selecttableid=row.id;
             return [
                 '<button  type="button" title="修改" class="btn btn-primary btn-xs roleedit_button" id="roleEdit" data-toggle="modal" ><i class="fa fa-pencil"></i></button>',
-                '<button  type="button" title="删除" class="btn btn-primary btn-xs roledel_button" id="templatedel" data-toggle="modal" data-target="#templatedel" style="background:#d9534f;border-color:#d9534f"><i class="fa fa-trash-o"></i></button>',
+                '<button  type="button" title="删除" class="btn btn-primary btn-xs roledelete_button" id="roledelete" data-toggle="modal" data-target="#roledel" style="background:#d9534f;border-color:#d9534f"><i class="fa fa-trash-o"></i></button>',
             ]
                 .join('');
 
@@ -174,4 +178,32 @@ $("#daoru").click(function(){
 
         }
     })
+})
+
+
+$("#roledelbutton").click(function () {
+    $.ajax({
+        url:"/role/tbRole/delete/"+selecttableid,
+        success:function (data) {
+            if (data==true){
+                toastr_success("操作成功")
+                $("#roledel").modal("hide");
+                window.location.reload();
+            } else {
+                toastr_error("操作失败！");
+            }
+        }
+    })
+    // $("#roledel").modal("hide");
+
+    // new AjaxRequest({
+    //     url: "/role/tbRole/delete/"+selecttableid,
+    //     buttonid: 'roledelbutton',
+    //     tableurl: '/role/tbRole/roleList',
+    //     tableid: 'roleList',
+    //     tableparam: {currentpagecount:currentpagecount},
+    //     modalid:'roledel',
+    //     numberpage:true
+    // });
+
 })

@@ -62,6 +62,18 @@ public class TbUserController  extends AbstractController {
         }
     }
 
+
+    //   删除
+    @RequestMapping("/delete/{id}")
+    public Boolean delete(@PathVariable("id") Integer id){
+        boolean id1 = userService.delete(new EntityWrapper<TbUser>().eq("Id", id));
+        if (id1==true){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
     /**
      * 获取角色信息
      */
