@@ -4,11 +4,11 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.qujie.mintwo.system.user.entity.TbUser;
 import com.qujie.mintwo.system.user.service.ITbUserService;
 import com.qujie.mintwo.ustils.AbstractController;
-import com.qujie.mintwo.ustils.MD5Utils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @RestController
@@ -18,16 +18,25 @@ public class LoginController extends AbstractController {
     private ITbUserService userService;
 
     @PostMapping("/sys/login")
-    public boolean login(String AccountName,String Password, HttpSession session){
-
-        TbUser tbUser = userService.selectOne(new EntityWrapper<TbUser>().eq("AccountName", AccountName).eq("Password", MD5Utils.getMD5Code(Password)));
-        if (tbUser!=null){
-            session.setAttribute("AccountName",AccountName);
+    public Boolean login(@RequestBody TbUser tbUser, HttpSession session){
+        TbUser tbUse1 = userService.selectOne(new EntityWrapper<TbUser>().eq("AccountName", tbUser.getAccountName()).eq("Password", tbUser.getPassword()));
+        if (tbUse1!=null){
+            session.setAttribute("AccountName",tbUser.getAccountName());
             return true;
         }else {
             return false;
         }
 
+    }
+
+    @RequestMapping(value = "/AccountName", produces = { "application/json;charset=UTF-8" })
+    public String AccountName(HttpServletRequest request){
+        HttpSession session =  request.getSession();
+        Object accountName =  session.getAttribute("AccountName");
+        TbUser tbUser = userService.selectOne(new EntityWrapper<TbUser>().eq("AccountName", accountName));
+        String realName = tbUser.getRealName();
+//        System.out.println(realName);
+        return realName;
     }
 
 
