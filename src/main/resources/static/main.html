@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 	<head>
 		<meta charset="utf-8" />
-		<title>啊哈</title>
+		<title>小二外卖后台管理系统</title>
 		<!--<meta name="keywords" content="Bootstrap模版,Bootstrap模版下载,Bootstrap教程,Bootstrap中文" />
 		<meta name="description" content="站长素材提供Bootstrap模版,Bootstrap教程,Bootstrap中文翻译等相关Bootstrap插件下载" />-->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -50,7 +50,7 @@
 					<a href="#" class="navbar-brand">
 						<small>
 							<i class="icon-cogs"></i>
-							啊哈
+							小二外卖后台管理系统
 						</small>
 					</a><!-- /.brand -->
 				</div><!-- /.navbar-header -->
@@ -64,7 +64,8 @@
 								<img class="nav-user-photo" src="assets/avatars/user.jpg" alt="Jason's Photo" />
 								<span class="user-info">
 									<small>欢迎光临,</small>
-									<small th:text=""></small>
+									<div id="accountName"></div>
+									<!--<small id="accountName"></small>-->
 
 								</span>
 
@@ -267,6 +268,13 @@
 
 				   eval($("#menu_li_00 a").attr("href"));
 			  });
+
+			$.ajax({
+				url:"/AccountName",
+				success:function (data) {
+					$("#accountName").html(data)
+				}
+			})
 			
 		</script>
 </body>
