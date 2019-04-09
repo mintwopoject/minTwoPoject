@@ -6,6 +6,9 @@ $(document).ready(function(){
             selecttableid=row.Id;
             roleInfo();
         },
+        'click .roledelete_button' : function(e, value, row) {
+            selecttableid=row.Id;
+        },
     };
 
     $("#roleList").bootstrapTable({
@@ -88,7 +91,7 @@ $(document).ready(function(){
         selecttableid=row.id;
             return [
                 '<button  type="button" title="修改" class="btn btn-primary btn-xs roleedit_button" id="roleEdit" data-toggle="modal" ><i class="fa fa-pencil"></i></button>',
-                '<button  type="button" title="删除" class="btn btn-primary btn-xs roledel_button" id="templatedel" data-toggle="modal" data-target="#templatedel" style="background:#d9534f;border-color:#d9534f"><i class="fa fa-trash-o"></i></button>',
+                '<button  type="button" title="删除" class="btn btn-primary btn-xs roledelete_button" id="roledelete" data-toggle="modal" data-target="#roledel" style="background:#d9534f;border-color:#d9534f"><i class="fa fa-trash-o"></i></button>',
             ]
                 .join('');
 
@@ -172,6 +175,21 @@ $("#daoru").click(function(){
         contentType: false,   // 告诉jQuery不要去设置Content-Type请求头
         success: function (res) {
 
+        }
+    })
+})
+
+
+$("#roledelbutton").click(function () {
+    $.ajax({
+        url:"/role/tbRole/delete/"+selecttableid,
+        success:function (data) {
+            if (data==true){
+                $("#roledel").modal("hide");
+                toastr_success("操作成功")
+            } else {
+                toastr_error("操作失败！");
+            }
         }
     })
 })

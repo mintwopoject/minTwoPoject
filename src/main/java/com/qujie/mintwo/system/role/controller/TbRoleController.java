@@ -57,6 +57,17 @@ public class TbRoleController extends AbstractController {
         }
     }
 
+//   删除
+    @RequestMapping("/delete/{id}")
+    public Boolean delete(@PathVariable("id") Integer id){
+        boolean id1 = roleService.delete(new EntityWrapper<TbRole>().eq("Id", id));
+        if (id1==true){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
     //角色新增
     @RequestMapping("/save")
     public R save(@RequestBody TbRole role){

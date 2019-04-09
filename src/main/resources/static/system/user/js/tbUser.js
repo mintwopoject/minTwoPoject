@@ -6,6 +6,9 @@ $(document).ready(function(){
             selecttableid=row.ID;
             userInfo();
         },
+        'click .userdelete_button' : function(e, value, row) {
+            selecttableid=row.ID;
+        },
     };
 
     $("#userList").bootstrapTable({
@@ -114,7 +117,7 @@ $(document).ready(function(){
         selecttableid=row.id;
         return [
             '<button  type="button" title="修改" class="btn btn-primary btn-xs useredit_button" id="userEdit" data-toggle="modal" ><i class="fa fa-pencil"></i></button>',
-            '<button  type="button" title="删除" class="btn btn-primary btn-xs roledel_button" id="templatedel" data-toggle="modal" data-target="#templatedel" style="background:#d9534f;border-color:#d9534f"><i class="fa fa-trash-o"></i></button>',
+            '<button  type="button" title="删除" class="btn btn-primary btn-xs userdelete_button" id="userdelete" data-toggle="modal" data-target="#userdel" style="background:#d9534f;border-color:#d9534f"><i class="fa fa-trash-o"></i></button>',
         ]
             .join('');
 
@@ -135,6 +138,21 @@ function userInfo() {
 
     })
 }
+
+
+$("#userdelbutton").click(function () {
+    $.ajax({
+        url:"/system/tbUser/delete/"+selecttableid,
+        success:function (data) {
+            if (data==true){
+                $("#userdel").modal("hide");
+                toastr_success("操作成功")
+            } else {
+                toastr_error("操作失败！");
+            }
+        }
+    })
+})
 
 
 //修改
@@ -216,6 +234,7 @@ function getRoleAll(inpId ,state){
             $("#"+inpId).selectpicker('refresh');
         }
     });
+
 
 
 }
