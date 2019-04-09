@@ -1,4 +1,5 @@
 var selecttableid;
+var currentpagecount;
 $(document).ready(function(){
 
     window.operateEvents = {
@@ -185,11 +186,24 @@ $("#roledelbutton").click(function () {
         url:"/role/tbRole/delete/"+selecttableid,
         success:function (data) {
             if (data==true){
-                $("#roledel").modal("hide");
                 toastr_success("操作成功")
+                $("#roledel").modal("hide");
+                window.location.reload();
             } else {
                 toastr_error("操作失败！");
             }
         }
     })
+    // $("#roledel").modal("hide");
+
+    // new AjaxRequest({
+    //     url: "/role/tbRole/delete/"+selecttableid,
+    //     buttonid: 'roledelbutton',
+    //     tableurl: '/role/tbRole/roleList',
+    //     tableid: 'roleList',
+    //     tableparam: {currentpagecount:currentpagecount},
+    //     modalid:'roledel',
+    //     numberpage:true
+    // });
+
 })

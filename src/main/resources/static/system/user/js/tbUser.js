@@ -145,13 +145,23 @@ $("#userdelbutton").click(function () {
         url:"/system/tbUser/delete/"+selecttableid,
         success:function (data) {
             if (data==true){
-                $("#userdel").modal("hide");
                 toastr_success("操作成功")
+                $("#userdel").modal("hide");
+                window.location.reload();
             } else {
                 toastr_error("操作失败！");
             }
         }
     })
+
+    // new AjaxRequest({
+    //     url: "/system/tbUser/delete/"+selecttableid,
+    //     buttonid: 'userdelbutton',
+    //     tableurl: '/system/tbUser/userList',
+    //     tableid: 'userList',
+    //     tableparam: {currentpagecount:1},
+    //     modalid:'userdel',
+    // });
 })
 
 
