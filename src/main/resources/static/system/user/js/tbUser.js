@@ -1,4 +1,5 @@
 var selecttableid;
+var currentpagecount;
 $(document).ready(function(){
 
     window.operateEvents = {
@@ -154,21 +155,14 @@ $("#userdelbutton").click(function () {
         }
     })
 
-    // new AjaxRequest({
-    //     url: "/system/tbUser/delete/"+selecttableid,
-    //     buttonid: 'userdelbutton',
-    //     tableurl: '/system/tbUser/userList',
-    //     tableid: 'userList',
-    //     tableparam: {currentpagecount:1},
-    //     modalid:'userdel',
-    // });
+
 })
 
 
 //修改
 $("#userEditButton").click(function () {
-    // $("#contractCreationTemplateEditFrom").data('bootstrapValidator').validate();
-    // if ($("#contractCreationTemplateEditFrom").data('bootstrapValidator').isValid()) {
+    $("#userEditFrom").data('bootstrapValidator').validate();
+    if ($("#userEditFrom").data('bootstrapValidator').isValid()) {
     new AjaxRequest({
         url: "/system/tbUser/edit",
         param: $('#userEditFrom').serializeJson(),
@@ -179,13 +173,14 @@ $("#userEditButton").click(function () {
         modalid: 'userEditModel',
         numberpage: true
     });
-    // }
+    }
 })
 
 //新增
 $("#userAddButton").click(function () {
-    // $("#contractCreationTemplateEditFrom").data('bootstrapValidator').validate();
-    // if ($("#contractCreationTemplateEditFrom").data('bootstrapValidator').isValid()) {
+    $("#userAddFrom").data('bootstrapValidator').validate();
+    if ($("#userAddFrom").data('bootstrapValidator').isValid()) {
+    console.log($('#userAddFrom').serializeJson())
     new AjaxRequest({
         url: "/system/tbUser/save",
         param: $('#userAddFrom').serializeJson(),
@@ -196,7 +191,7 @@ $("#userAddButton").click(function () {
         modalid: 'userAddModel',
         numberpage: true
     });
-    // }
+    }
 })
 
 

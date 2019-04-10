@@ -1,6 +1,7 @@
 package com.qujie.mintwo.ustils;
 
 import com.qujie.mintwo.config.SystemConfig;
+import com.qujie.mintwo.config.UserInterceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,14 @@ public abstract class AbstractController {
 
 	@Autowired
 	private SystemConfig systemConfig;
+
+	public static String USERNAME;
+
+	public static String getUserName(HttpServletRequest request){
+		HttpSession session = request.getSession();
+		String accountName = session.getAttribute(UserInterceptor.SESSION_KEY).toString();
+		return accountName;
+	}
 
 
 	protected HttpSession getSession(){

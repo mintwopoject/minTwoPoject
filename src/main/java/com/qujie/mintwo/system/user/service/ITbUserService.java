@@ -27,11 +27,14 @@ public interface ITbUserService extends IService<TbUser> {
      */
     PageUtil userList(Map<String, Object> params);
 
-    boolean edit(TbUser tbUser);
+    boolean edit(String request,String USERNAME);
 
-    boolean save(TbUser tbUser);
+    boolean save(String request,String USERNAME);
 
     R getUserRole(Integer userId);
+
+    //用户名校验
+    boolean checkName(Object name,Object id);
 
 
 

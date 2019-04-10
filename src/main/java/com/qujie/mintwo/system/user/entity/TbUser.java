@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.enums.IdType;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @TableName("tbUser")
 public class TbUser {
@@ -31,8 +32,8 @@ public class TbUser {
     @TableField("Email")
     private String Email;
 
-//    @TableField("IsAble")
-//    private Boolean IsAble;
+    @TableField("IsAble")
+    private Boolean IsAble;
 
     @TableField("IfChangePwd")
     private Boolean IfChangePwd;
@@ -111,13 +112,13 @@ public class TbUser {
         Email = email;
     }
 
-//    public Boolean getIsAble() {
-//        return IsAble;
-//    }
-//
-//    public void setIsAble(Boolean Isable) {
-//        IsAble = Isable;
-//    }
+    public Boolean getIsAble() {
+        return IsAble;
+    }
+
+    public void setIsAble(Boolean Isable) {
+        IsAble = Isable;
+    }
 
     public Boolean getIfChangePwd() {
         return IfChangePwd;

@@ -14,6 +14,8 @@ import com.qujie.mintwo.system.user.service.ITbUserService;
 import com.qujie.mintwo.system.userRole.entity.TbUserRole;
 import com.qujie.mintwo.system.userRole.service.ITbUserRoleService;
 import com.qujie.mintwo.ustils.*;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,51 +49,87 @@ public class TbUserServiceImpl extends ServiceImpl<TbUserMapper, TbUser> impleme
     }
 
     @Override
-    public boolean edit(TbUser tbUser) {
+    public boolean edit(String request,String USERNAME) {
+        JSONObject Json = JSONObject.fromObject(request);
+        TbUser tbUser = new TbUser();
+        String id = Json.get("id").toString();
+        tbUser.setId(id!=null?Integer.valueOf(id):null);
+        tbUser.setAccountName(Json.get("accountName")!=null?Json.get("accountName").toString():"");
+        tbUser.setPassword(MD5Utils.getMD5Code( Json.get("password")!=null?Json.get("password").toString():""));
+        tbUser.setEmail(Json.get("email")!=null?Json.get("email").toString():"");
+        tbUser.setRealName(Json.get("realName")!=null?Json.get("realName").toString():"");
+        tbUser.setMobilePhone(Json.get("mobilePhone")!=null?Json.get("mobilePhone").toString():"");
+        tbUser.setUpdateBy(USERNAME);
+        tbUser.setDescription(Json.get("description")!=null?Json.get("description").toString():"");
+        tbUser.setIsAble( (Boolean) Json.get("isAble"));
+
         tbUser.setUpdateTime(new Date());
         boolean b = tbUserService.updateById(tbUser);
-        String[] split = tbUser.getRoleids();
-//        String[] split = roleId.split(",");
-        List<TbUserRole> list = new ArrayList<>();
-        for (int i = 0; i <split.length ; i++) {
-            TbUserRole tbUserRole = new TbUserRole();
-            tbUserRole.setUserId(tbUser.getId());
-            tbUserRole.setRoleId(Integer.valueOf(split[i]));
-            list.add(tbUserRole);
-        }
+
         List<TbUserRole> list1 = tbUserRoleService.selectList(new EntityWrapper<TbUserRole>().eq("UserId", tbUser.getId()));
         for (int i = 0; i < list1.size(); i++) {
             tbUserRoleService.delete(new EntityWrapper<TbUserRole>().eq("UserId",list1.get(i).getUserId()));
 
         }
-        boolean b2 = tbUserRoleService.insertBatch(list);
-        if (b==true&b2==true){
+        Object temObject = Json.get("roleids");
+        List<TbUserRole> list = new ArrayList<>();
+        if(temObject instanceof JSONArray){
+            JSONArray array = (JSONArray)temObject;
+            for (int i = 0; i <array.size() ; i++) {
+                TbUserRole tbUserRole = new TbUserRole();
+                tbUserRole.setUserId(tbUser.getId());
+                tbUserRole.setRoleId(Integer.valueOf(array.get(i).toString()));
+                list.add(tbUserRole);
+            }
+            boolean b2 = tbUserRoleService.insertBatch(list);
             return true;
         }else {
-            return false;
+            TbUserRole tbUserRole1 = new TbUserRole();
+            String tem = temObject.toString();
+            tbUserRole1.setUserId(tbUser.getId());
+            tbUserRole1.setRoleId(Integer.valueOf(tem));
+            boolean insert = tbUserRoleService.insert(tbUserRole1);
+            return true;
         }
+
 
     }
 
 
     @Override
-    public boolean save(TbUser tbUser) {
+    public boolean save(String request,String USERNAME) {
+        JSONObject Json = JSONObject.fromObject(request);
+        TbUser tbUser = new TbUser();
+        tbUser.setAccountName(Json.get("accountName")!=null?Json.get("accountName").toString():"");
+        tbUser.setPassword(MD5Utils.getMD5Code( Json.get("password")!=null?Json.get("password").toString():""));
+        tbUser.setEmail(Json.get("email")!=null?Json.get("email").toString():"");
+        tbUser.setRealName(Json.get("realName")!=null?Json.get("realName").toString():"");
+        tbUser.setCreateBy(USERNAME);
+        tbUser.setDescription(Json.get("description")!=null?Json.get("description").toString():"");
+        tbUser.setMobilePhone(Json.get("mobilePhone")!=null?Json.get("mobilePhone").toString():"");
         tbUser.setCreateTime(new Date());
-        tbUser.setPassword("123123");
+        tbUser.setIsAble( (Boolean) Json.get("isAble"));
         boolean b = tbUserService.insert(tbUser);
-        String[] split = tbUser.getRoleids();
+
+        Object temObject = Json.get("roleids");
         List<TbUserRole> list = new ArrayList<>();
-        for (int i = 0; i <split.length ; i++) {
-            TbUserRole tbUserRole = new TbUserRole();
-            tbUserRole.setUserId(tbUser.getId());
-            tbUserRole.setRoleId(Integer.valueOf(split[i]));
-            list.add(tbUserRole);
-        }
-        boolean b2 = tbUserRoleService.insertBatch(list);
-        if (b==true&b2==true){
+        if(temObject instanceof JSONArray){
+            JSONArray array = (JSONArray)temObject;
+            for (int i = 0; i <array.size() ; i++) {
+                TbUserRole tbUserRole = new TbUserRole();
+                tbUserRole.setUserId(tbUser.getId());
+                tbUserRole.setRoleId(Integer.valueOf(array.get(i).toString()));
+                list.add(tbUserRole);
+            }
+            boolean b2 = tbUserRoleService.insertBatch(list);
             return true;
-        }else {
-            return false;
+        }else{
+            TbUserRole tbUserRole1 = new TbUserRole();
+            String tem = temObject.toString();
+            tbUserRole1.setUserId(tbUser.getId());
+            tbUserRole1.setRoleId(Integer.valueOf(tem));
+            boolean insert = tbUserRoleService.insert(tbUserRole1);
+            return true;
         }
 
     }
@@ -107,6 +145,23 @@ public class TbUserServiceImpl extends ServiceImpl<TbUserMapper, TbUser> impleme
         Map<String,Object> map = new HashMap();
         map.put("roleIds",list);
         return R.ok(map);
+    }
+
+    @Override
+    public boolean checkName(Object name, Object id) {
+        String sql = "select count(*) count from tbUser where AccountName = ";
+        if(CheckUtils.AllObjNotNull(name)){
+            sql +="'"+name.toString()+"'" +
+                    "" +
+                    "  " ;
+            if(CheckUtils.isNotNull(id)){
+                sql +=" and ID != '" +id.toString() +"' " ;
+            }
+            List<Map> bySql = daoUtils.findBySql(sql);
+            return (Integer)(bySql.get(0).get("count")) <= 0;
+        }else{
+            return false;
+        }
     }
 
 }
