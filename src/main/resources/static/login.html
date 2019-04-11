@@ -12,8 +12,8 @@
 
         }
         .login-block{
-            width:35%;
-            height: 25%;
+            width:30%;
+            height: 35%;
             margin: 100px auto;
 
         }
@@ -52,17 +52,21 @@
             display: inline-block;
             font-size: 16px;
             outline: none;
-            box-shadow: 2px 2px 4px grey;
+            /*box-shadow: 2px 2px 4px grey;*/
         }
+        /*body{*/
+            /*background-image: url("assets/avatars/beijin.jpg");*/
+            /*background-size: cover;*/
+        /*}*/
     </style>
 </head>
 <body><script src="lib/public/publicJS_1.js"></script>
 <div class="back-image">
-    <h1>小二管理系统</h1>
+    <h1>小二外卖管理系统</h1>
     <div class="login-block">
         <form id="loginFrom">
-            <input type="text" class="account form-control" id="AccountName" name="accountName" placeholder="请输入账号">
-            <input type=password class="password form-control" id="Password" name="password" placeholder="请输入密码">
+            <input style="opacity:0.4;" type="text" class="account form-control" id="AccountName" name="accountName" placeholder="请输入账号">
+            <input style="opacity:0.4;" type=password class="password form-control" id="Password" name="password" placeholder="请输入密码">
         </form>
         <div>
             <input type="submit" id="login" value="登录"/>

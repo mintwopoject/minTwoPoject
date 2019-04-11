@@ -148,7 +148,7 @@ $("#userdelbutton").click(function () {
             if (data==true){
                 toastr_success("操作成功")
                 $("#userdel").modal("hide");
-                window.location.reload();
+                $("#userList").bootstrapTable('refreshOptions',{pageNumber:currentpagecount});
             } else {
                 toastr_error("操作失败！");
             }

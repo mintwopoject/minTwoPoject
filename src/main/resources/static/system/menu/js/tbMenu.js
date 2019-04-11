@@ -133,11 +133,13 @@ $("#menuaddbutton").click(function () {
         buttonid:'menuaddbutton',
         callBack: function (data) {
             console.log(data)
-            if (data==true){
+            if (data==0){
                 $("#menuadd").modal("hide");
                 toastr_success("操作成功");
                 ss()
-            } else {
+            } else if (data==2) {
+                toastr_error("不允许创建三级菜单！");
+            }else{
                 toastr_error("操作失败！");
             }
 
@@ -170,7 +172,15 @@ function ss() {
     $.ajax({
         url:"/system/tbmenu/menuList",
         success:function (data) {
-            nods=data
+            nods="["
+            for(let k in data){
+                if(k==data.length-1){
+                    nods+= JSON.stringify(data[k]);
+                }else{
+                    nods+= JSON.stringify(data[k])+",";
+                }
+            }
+            nods+="]"
             $('#tree').treeview({
                 data: nods,//节点数据
                 showBorder: true, //是否在节点周围显示边框

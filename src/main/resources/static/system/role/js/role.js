@@ -188,7 +188,8 @@ $("#roledelbutton").click(function () {
             if (data==true){
                 toastr_success("操作成功")
                 $("#roledel").modal("hide");
-                window.location.reload();
+                $("#roleList").bootstrapTable('refreshOptions',{pageNumber:currentpagecount});
+
             } else {
                 toastr_error("操作失败！");
             }

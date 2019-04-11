@@ -19,6 +19,7 @@ import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -47,8 +48,8 @@ public class TbUserServiceImpl extends ServiceImpl<TbUserMapper, TbUser> impleme
         BetweenUtils.setFENYE(" and RowId ");
         return daoUtils.findBySql(sql, PageUtilsFactory.getInstance(params));
     }
-
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean edit(String request,String USERNAME) {
         JSONObject Json = JSONObject.fromObject(request);
         TbUser tbUser = new TbUser();
@@ -97,6 +98,7 @@ public class TbUserServiceImpl extends ServiceImpl<TbUserMapper, TbUser> impleme
 
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean save(String request,String USERNAME) {
         JSONObject Json = JSONObject.fromObject(request);
         TbUser tbUser = new TbUser();

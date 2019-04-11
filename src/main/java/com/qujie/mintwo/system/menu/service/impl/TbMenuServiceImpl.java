@@ -7,10 +7,13 @@ import com.qujie.mintwo.system.menu.entity.Menu;
 import com.qujie.mintwo.system.menu.entity.TbMenu;
 import com.qujie.mintwo.system.menu.mapper.TbMenuMapper;
 import com.qujie.mintwo.system.menu.service.ITbMenuService;
+import com.qujie.mintwo.system.roleMenu.entity.TbRoleMenu;
+import com.qujie.mintwo.system.roleMenu.service.ITbRoleMenuService;
 import com.qujie.mintwo.ustils.MenuUtils2;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -28,6 +31,8 @@ public class TbMenuServiceImpl extends ServiceImpl<TbMenuMapper, TbMenu> impleme
     private DaoUtils<TbMenu> daoUtils;
     @Autowired
     private ITbMenuService tbMenuService;
+    @Autowired
+    private ITbRoleMenuService roleMenuService;
 
     @Autowired
     private TbMenuMapper tbMenuMapper;
@@ -43,7 +48,7 @@ public class TbMenuServiceImpl extends ServiceImpl<TbMenuMapper, TbMenu> impleme
                 menuList.add(tbMenus.get(i));
             }
         }
-
+        Collections.sort(menuList, sort());
         for (int i = 0; i <menuList.size() ; i++) {
             List<TbMenu> child = getChild(String.valueOf(menuList.get(i).getId()), tbMenus);
             menuList.get(i).setNodes(child);
@@ -74,7 +79,7 @@ public class TbMenuServiceImpl extends ServiceImpl<TbMenuMapper, TbMenu> impleme
 //            }
         }
 
-
+        Collections.sort(childList, sort());
         // 把子菜单的子菜单再循环一遍
         for (TbMenu menu : childList) {// 没有url子菜单还有子菜单
             if (StringUtils.isBlank(menu.getLinkAddress())) {
@@ -175,7 +180,6 @@ public class TbMenuServiceImpl extends ServiceImpl<TbMenuMapper, TbMenu> impleme
 
 
 
-
     //查询菜单
     public List<TbMenu> navList(List<TbMenu> tbMenus){
 
@@ -250,6 +254,25 @@ public class TbMenuServiceImpl extends ServiceImpl<TbMenuMapper, TbMenu> impleme
         };
         return comparator;
     }
-
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean deleteMenu(Integer id) {
+        TbMenu tbMenu = tbMenuService.selectOne(new EntityWrapper<TbMenu>().eq("Id", id));
+        if (tbMenu.getParentId()==0){
+            return false;
+        }
+        boolean id1 = tbMenuService.delete(new EntityWrapper<TbMenu>().eq("Id", id));
+        List<TbRoleMenu> tbRoleMenus = roleMenuService.selectList(new EntityWrapper<TbRoleMenu>().eq("MenuId", id));
+        if (tbRoleMenus.size()>0){
+            for (int i = 0; i <tbRoleMenus.size() ; i++) {
+                roleMenuService.delete(new EntityWrapper<TbRoleMenu>().eq("MenuId", tbRoleMenus.get(i).getMenuId()));
+            }
+        }
+        if (id1==true){
+            return true;
+        }else {
+            return false;
+        }
+    }
 
 }

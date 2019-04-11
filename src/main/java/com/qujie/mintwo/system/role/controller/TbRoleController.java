@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.qujie.mintwo.system.role.entity.TbRole;
 import com.qujie.mintwo.system.role.service.ITbRoleService;
 import com.qujie.mintwo.system.roleMenu.entity.TbRoleMenu;
+import com.qujie.mintwo.system.roleMenu.service.ITbRoleMenuService;
 import com.qujie.mintwo.ustils.AbstractController;
 import com.qujie.mintwo.ustils.PageUtil;
 import com.qujie.mintwo.ustils.R;
@@ -33,6 +34,8 @@ public class TbRoleController extends AbstractController {
 
     @Autowired
     private ITbRoleService roleService;
+    @Autowired
+    private ITbRoleMenuService roleMenuService;
 
     //角色列表
     @PostMapping("/roleList")
@@ -49,7 +52,7 @@ public class TbRoleController extends AbstractController {
     //角色修改
     @RequestMapping("/edit")
     public R edit(@RequestBody TbRole role){
-        boolean b = roleService.updateByIds(role);
+        boolean b = roleService.updateByIds(role,USERNAME);
         if (b==true){
             return R.ok("操作成功");
         }else {
@@ -60,8 +63,9 @@ public class TbRoleController extends AbstractController {
 //   删除
     @RequestMapping("/delete/{id}")
     public Boolean delete(@PathVariable("id") Integer id){
-        boolean id1 = roleService.delete(new EntityWrapper<TbRole>().eq("Id", id));
-        if (id1==true){
+        boolean b = roleService.deleteRole(id);
+
+        if (b==true){
             return true;
         }else {
             return false;
@@ -71,7 +75,7 @@ public class TbRoleController extends AbstractController {
     //角色新增
     @RequestMapping("/save")
     public R save(@RequestBody TbRole role){
-        boolean b = roleService.saves(role);
+        boolean b = roleService.saves(role,USERNAME);
         if (b==true){
             return R.ok("操作成功");
         }else {

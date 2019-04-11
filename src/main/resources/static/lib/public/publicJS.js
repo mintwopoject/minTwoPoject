@@ -67,6 +67,7 @@ document.write("<script language=javascript src='/static/lib/jquery.cookie.js'><
  */
 document.write("<script language=javascript src='/static/lib/webpath.js'></script>");
 document.write("<script language=javascript src='/static/lib/base.js'></script>");
+document.write("<script language=javascript src='/static/lib/MD5.js'></script>");
 document.write("<script type='text/javascript' src='/static/lib/base64/jquery.base64.js'></script>");
 /**
  * 流程js

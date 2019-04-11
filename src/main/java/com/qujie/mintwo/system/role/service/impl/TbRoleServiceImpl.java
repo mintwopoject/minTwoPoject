@@ -8,6 +8,8 @@ import com.qujie.mintwo.system.role.mapper.TbRoleMapper;
 import com.qujie.mintwo.system.role.service.ITbRoleService;
 import com.qujie.mintwo.system.roleMenu.entity.TbRoleMenu;
 import com.qujie.mintwo.system.roleMenu.service.ITbRoleMenuService;
+import com.qujie.mintwo.system.userRole.entity.TbUserRole;
+import com.qujie.mintwo.system.userRole.service.ITbUserRoleService;
 import com.qujie.mintwo.ustils.BetweenUtils;
 import com.qujie.mintwo.ustils.MyException;
 import com.qujie.mintwo.ustils.PageUtil;
@@ -48,6 +50,10 @@ public class TbRoleServiceImpl extends ServiceImpl<TbRoleMapper, TbRole> impleme
     private DaoUtils<TbRole> daoUtils;
     @Autowired
     private ITbRoleMenuService tbRoleMenuService;
+    @Autowired
+    private ITbRoleMenuService roleMenuService;
+    @Autowired
+    private ITbUserRoleService userRoleService;
 
     @Override
     public PageUtil roleList(Map<String, Object> params) {
@@ -58,15 +64,17 @@ public class TbRoleServiceImpl extends ServiceImpl<TbRoleMapper, TbRole> impleme
         return daoUtils.findBySql(sql, PageUtilsFactory.getInstance(params));
 
     }
-    @Transactional(rollbackFor = Exception.class)
+
     @Override
-    public boolean updateByIds(TbRole role) {
+    @Transactional(rollbackFor = Exception.class)
+    public boolean updateByIds(TbRole role,String USERNAME) {
         String menuids = role.getMenuids();
         String[] split=null;
         if (menuids!=null&&menuids!=""){
             split = menuids.split(",");
         }
         role.setUpdateTime(new Date());
+        role.setUpdateBy(USERNAME);
         List<TbRoleMenu> tbRoleMenus = tbRoleMenuService.selectList(new EntityWrapper<TbRoleMenu>().eq("RoleId", role.getId()));
         boolean b = roleService.updateById(role);
         boolean b1=false;
@@ -92,15 +100,16 @@ public class TbRoleServiceImpl extends ServiceImpl<TbRoleMapper, TbRole> impleme
     }
 
 
-    @Transactional(rollbackFor = Exception.class)
     @Override
-    public boolean saves(TbRole role) {
+    @Transactional(rollbackFor = Exception.class)
+    public boolean saves(TbRole role,String USERNAME) {
         String menuids = role.getMenuids();
         String[] split=null;
         if (menuids!=null&&menuids!=""){
             split = menuids.split(",");
         }
         role.setCreateTime(new Date());
+        role.setCreateBy(USERNAME);
         boolean b = roleService.insert(role);
 
         for (int i = 0; i <split.length ; i++) {
@@ -118,6 +127,7 @@ public class TbRoleServiceImpl extends ServiceImpl<TbRoleMapper, TbRole> impleme
 
 
     }
+
 
 
     @Override
@@ -219,6 +229,29 @@ public class TbRoleServiceImpl extends ServiceImpl<TbRoleMapper, TbRole> impleme
         }
 
         return notNull;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean deleteRole(Integer id) {
+        boolean id1 = roleService.delete(new EntityWrapper<TbRole>().eq("Id", id));
+        List<TbRoleMenu> tbRoleMenu = roleMenuService.selectList(new EntityWrapper<TbRoleMenu>().eq("RoleId", id));
+        if (tbRoleMenu.size()>0){
+            for (int i = 0; i <tbRoleMenu.size() ; i++) {
+                roleMenuService.delete(new EntityWrapper<TbRoleMenu>().eq("RoleId", tbRoleMenu.get(i).getRoleId()));
+            }
+        }
+        List<TbUserRole> list = userRoleService.selectList(new EntityWrapper<TbUserRole>().eq("RoleId", id));
+        if (list.size()>0){
+            for (int i = 0; i <list.size() ; i++) {
+                userRoleService.delete(new EntityWrapper<TbUserRole>().eq("RoleId", list.get(i).getRoleId()));
+            }
+        }
+        if (id1==true){
+            return true;
+        }else {
+            return false;
+        }
     }
 
 

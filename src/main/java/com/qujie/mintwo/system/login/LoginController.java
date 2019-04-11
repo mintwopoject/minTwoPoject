@@ -5,6 +5,7 @@ import com.qujie.mintwo.config.UserInterceptor;
 import com.qujie.mintwo.system.user.entity.TbUser;
 import com.qujie.mintwo.system.user.service.ITbUserService;
 import com.qujie.mintwo.ustils.AbstractController;
+import com.qujie.mintwo.ustils.MD5Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,9 +20,10 @@ public class LoginController extends AbstractController {
 
     @PostMapping("/sys/login")
     public Boolean login(@RequestBody TbUser tbUser, HttpSession session){
-        TbUser tbUse1 = userService.selectOne(new EntityWrapper<TbUser>().eq("AccountName", tbUser.getAccountName()).eq("Password", tbUser.getPassword()));
+        TbUser tbUse1 = userService.selectOne(new EntityWrapper<TbUser>().eq("AccountName", tbUser.getAccountName()).eq("Password", MD5Utils.getMD5Code(tbUser.getPassword())));
         if (tbUse1!=null){
             session.setAttribute(UserInterceptor.SESSION_KEY,tbUser.getAccountName());
+            AbstractController.USERNAME=session.getAttribute(UserInterceptor.SESSION_KEY).toString();
             return true;
         }else {
             return false;
@@ -29,16 +31,25 @@ public class LoginController extends AbstractController {
 
     }
 
-    @RequestMapping(value = "/AccountName", produces = { "application/json;charset=UTF-8" })
-    public String AccountName(HttpServletRequest request){
-        HttpSession session =  request.getSession();
-        Object accountName =  session.getAttribute(UserInterceptor.SESSION_KEY);
-        TbUser tbUser = userService.selectOne(new EntityWrapper<TbUser>().eq("AccountName", accountName));
-        String realName = tbUser.getRealName();
-        return realName;
+    @RequestMapping("/AccountName")
+    public TbUser AccountName(HttpServletRequest request){
+
+        HttpSession session = null;
+        try {
+            session = request.getSession();
+            String accountName =  session.getAttribute(UserInterceptor.SESSION_KEY).toString();
+            TbUser tbUser = userService.selectOne(new EntityWrapper<TbUser>().eq("AccountName", accountName));
+            return tbUser;
+        } catch (Exception e) {
+            return null;
+        }
+
     }
 
-
+    @GetMapping("/logout")
+    public void logout(HttpSession session){
+        session.removeAttribute(UserInterceptor.SESSION_KEY);
+    }
 
 
 }

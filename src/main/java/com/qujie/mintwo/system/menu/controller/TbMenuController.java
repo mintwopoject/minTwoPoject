@@ -11,6 +11,7 @@ import com.qujie.mintwo.system.user.entity.TbUser;
 import com.qujie.mintwo.system.user.service.ITbUserService;
 import com.qujie.mintwo.system.userRole.entity.TbUserRole;
 import com.qujie.mintwo.system.userRole.service.ITbUserRoleService;
+import com.qujie.mintwo.ustils.AbstractController;
 import net.sf.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
@@ -33,7 +34,7 @@ import java.util.*;
  */
 @RestController
 @RequestMapping("/system/tbmenu")
-public class TbMenuController{
+public class TbMenuController extends AbstractController {
     @Autowired
     private ITbMenuService tbMenuService;
 
@@ -46,10 +47,10 @@ public class TbMenuController{
     private ITbUserRoleService userRoleService;
 
     @RequestMapping("/menuList")
-    public Object menuList(){
+    public List<TbMenu> menuList(){
         List<TbMenu> stringObjectMap = tbMenuService.menuList();
-        JSONArray jsonArray = JSONArray.fromObject(stringObjectMap);
-        return jsonArray;
+//        JSONArray jsonArray = JSONArray.fromObject(stringObjectMap);
+        return stringObjectMap;
     }
 
     /**
@@ -57,39 +58,46 @@ public class TbMenuController{
      */
     @RequestMapping("/navList")
     public Object navList(HttpServletRequest request){
-        HttpSession session = request.getSession();
-        Object accountName = session.getAttribute("AccountName");
-        TbUser tbUser = userService.selectOne(new EntityWrapper<TbUser>().eq("AccountName", accountName));
-        //所有角色
-        List<Integer> list3 = new ArrayList<>();
-        List<TbUserRole> list = userRoleService.selectList(new EntityWrapper<TbUserRole>().eq("UserId", tbUser.getId()));
-        for (int i = 0; i < list.size(); i++) {
-            list3.add(list.get(i).getRoleId());
-        }
 
-        //根据角色查菜单id
-        Set<Integer> list1 = new HashSet<>();
-        for (int i = 0; i < list3.size(); i++) {
-            if (list3.get(i)!=null||!list3.get(i).equals("")){
-                List<TbRoleMenu> tbRoleMenu = roleMenuService.selectList(new EntityWrapper<TbRoleMenu>().eq("RoleId", list3.get(i)));
-                for (int j = 0; j <tbRoleMenu.size() ; j++) {
-                    list1.add(tbRoleMenu.get(j).getMenuId());
+        HttpSession session = null;
+        try {
+            session = request.getSession();
+            Object accountName = session.getAttribute("AccountName");
+            TbUser tbUser = userService.selectOne(new EntityWrapper<TbUser>().eq("AccountName", accountName));
+            //所有角色
+            List<Integer> list3 = new ArrayList<>();
+            List<TbUserRole> list = userRoleService.selectList(new EntityWrapper<TbUserRole>().eq("UserId", tbUser.getId()));
+            for (int i = 0; i < list.size(); i++) {
+                list3.add(list.get(i).getRoleId());
+            }
+
+            //根据角色查菜单id
+            Set<Integer> list1 = new HashSet<>();
+            for (int i = 0; i < list3.size(); i++) {
+                if (list3.get(i)!=null||!list3.get(i).equals("")){
+                    List<TbRoleMenu> tbRoleMenu = roleMenuService.selectList(new EntityWrapper<TbRoleMenu>().eq("RoleId", list3.get(i)));
+                    for (int j = 0; j <tbRoleMenu.size() ; j++) {
+                        list1.add(tbRoleMenu.get(j).getMenuId());
+                    }
+
                 }
-
             }
-        }
-        //获取所有菜单
-        List<TbMenu> list2 = new ArrayList<>();
-        for (Integer set :list1) {
-            if (set!=null||!set.equals("")){
-                TbMenu tbMenu = tbMenuService.selectOne(new EntityWrapper<TbMenu>().eq("Id", set));
-                list2.add(tbMenu);
+            //获取所有菜单
+            List<TbMenu> list2 = new ArrayList<>();
+            for (Integer set :list1) {
+                if (set!=null||!set.equals("")){
+                    TbMenu tbMenu = tbMenuService.selectOne(new EntityWrapper<TbMenu>().eq("Id", set));
+                    list2.add(tbMenu);
+                }
             }
-        }
-        List<TbMenu> tbMenus = tbMenuService.navList(list2);
-        JSONArray jsonArray = JSONArray.fromObject(tbMenus);
+            List<TbMenu> tbMenus = tbMenuService.navList(list2);
+            JSONArray jsonArray = JSONArray.fromObject(tbMenus);
 
-        return jsonArray;
+            return jsonArray;
+        } catch (Exception e) {
+            return null;
+        }
+
     }
 
 
@@ -122,15 +130,18 @@ public class TbMenuController{
      * 新增菜单
      */
     @RequestMapping("/add")
-    public boolean add(@RequestBody TbMenu tbMenu){
+    public Integer add(@RequestBody TbMenu tbMenu){
         tbMenu.setCreateTime(new Date());
-        tbMenu.setUpdateTime(new Date());
-        tbMenu.setCreateBy("admin");
+        tbMenu.setCreateBy(USERNAME);
+        TbMenu tbMenu1 = tbMenuService.selectOne(new EntityWrapper<TbMenu>().eq("Id", tbMenu.getParentId()));
+        if (tbMenu1.getParentId()!=0){
+            return 2;//不允许创建三级菜单
+        }
         boolean insert = tbMenuService.insert(tbMenu);
         if (insert==true){
-            return true;
+            return 0;//操作成功
         }else{
-            return false;
+            return 1;//操作失败！
         }
     }
 
@@ -140,7 +151,7 @@ public class TbMenuController{
     @RequestMapping("/edit")
     public boolean edit(@RequestBody TbMenu tbMenu){
         tbMenu.setUpdateTime(new Date());
-        tbMenu.setUpdateBy("admin");
+        tbMenu.setUpdateBy(USERNAME);
         boolean update = tbMenuService.updateById(tbMenu);
         if (update==true){
             return true;
@@ -151,8 +162,8 @@ public class TbMenuController{
 
     @RequestMapping("/delete/{id}")
     public Boolean delete(@PathVariable("id") Integer id){
-        boolean id1 = tbMenuService.delete(new EntityWrapper<TbMenu>().eq("Id", id));
-        if (id1==true){
+        Boolean aBoolean = tbMenuService.deleteMenu(id);
+        if (aBoolean==true){
             return true;
         }else {
             return false;

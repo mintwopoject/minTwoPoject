@@ -28,6 +28,9 @@ public interface ITbMenuService extends IService<TbMenu> {
 
     List<Menu> selectLists(List<Integer> checkmenuid);
 
+    //删除
+    Boolean deleteMenu(Integer id);
+
 
 
 

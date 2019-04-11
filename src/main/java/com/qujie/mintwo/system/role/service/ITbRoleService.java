@@ -26,12 +26,15 @@ public interface ITbRoleService extends IService<TbRole> {
     /**
      * 根据id修改
      */
-    boolean updateByIds(TbRole role);
+    boolean updateByIds(TbRole role,String USERNAME);
 
 
-    boolean saves(TbRole role);
+    boolean saves(TbRole role,String USERNAME);
 
     boolean batchImport(String fileName, MultipartFile file) throws Exception;
+
+    //删除
+    boolean deleteRole(Integer id);
 
 
 

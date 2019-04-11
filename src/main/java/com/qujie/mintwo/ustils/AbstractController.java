@@ -28,12 +28,6 @@ public abstract class AbstractController {
 
 	public static String USERNAME;
 
-	public static String getUserName(HttpServletRequest request){
-		HttpSession session = request.getSession();
-		String accountName = session.getAttribute(UserInterceptor.SESSION_KEY).toString();
-		return accountName;
-	}
-
 
 	protected HttpSession getSession(){
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
