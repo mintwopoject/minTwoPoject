@@ -70,27 +70,27 @@ public class TbRoleServiceImpl extends ServiceImpl<TbRoleMapper, TbRole> impleme
     public boolean updateByIds(TbRole role,String USERNAME) {
         String menuids = role.getMenuids();
         String[] split=null;
-        if (menuids!=null&&menuids!=""){
-            split = menuids.split(",");
-        }
+
         role.setUpdateTime(new Date());
         role.setUpdateBy(USERNAME);
         List<TbRoleMenu> tbRoleMenus = tbRoleMenuService.selectList(new EntityWrapper<TbRoleMenu>().eq("RoleId", role.getId()));
         boolean b = roleService.updateById(role);
-        boolean b1=false;
         if (tbRoleMenus.size()>0){
             for (int i = 0; i < tbRoleMenus.size(); i++) {
-                b1 =  tbRoleMenuService.deleteById(tbRoleMenus.get(i));
+                tbRoleMenuService.deleteById(tbRoleMenus.get(i));
             }
         }
-        for (int i = 0; i <split.length ; i++) {
-            TbRoleMenu tbRoleMenu = new TbRoleMenu();
-            tbRoleMenu.setRoleId(role.getId());
-            tbRoleMenu.setMenuId(Integer.valueOf(split[i]));
-            tbRoleMenuService.insert(tbRoleMenu);
+        if (menuids!=null&&menuids!=""){
+            split = menuids.split(",");
+            for (int i = 0; i <split.length ; i++) {
+                TbRoleMenu tbRoleMenu = new TbRoleMenu();
+                tbRoleMenu.setRoleId(role.getId());
+                tbRoleMenu.setMenuId(Integer.valueOf(split[i]));
+                tbRoleMenuService.insert(tbRoleMenu);
+            }
         }
 
-        if (b==true&&b1==true){
+        if (b==true){
             return true;
         }else {
             return false;
@@ -107,17 +107,18 @@ public class TbRoleServiceImpl extends ServiceImpl<TbRoleMapper, TbRole> impleme
         String[] split=null;
         if (menuids!=null&&menuids!=""){
             split = menuids.split(",");
+            for (int i = 0; i <split.length ; i++) {
+                TbRoleMenu tbRoleMenu = new TbRoleMenu();
+                tbRoleMenu.setRoleId(role.getId());
+                tbRoleMenu.setMenuId(Integer.valueOf(split[i]));
+                tbRoleMenuService.insert(tbRoleMenu);
+            }
         }
         role.setCreateTime(new Date());
         role.setCreateBy(USERNAME);
         boolean b = roleService.insert(role);
 
-        for (int i = 0; i <split.length ; i++) {
-            TbRoleMenu tbRoleMenu = new TbRoleMenu();
-            tbRoleMenu.setRoleId(role.getId());
-            tbRoleMenu.setMenuId(Integer.valueOf(split[i]));
-            tbRoleMenuService.insert(tbRoleMenu);
-        }
+
 
         if (b==true){
             return true;

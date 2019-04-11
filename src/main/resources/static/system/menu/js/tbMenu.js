@@ -127,43 +127,49 @@ $("#menudelbutton").click(function () {
 
 //新增
 $("#menuaddbutton").click(function () {
-    new AjaxRequest({
-        url: "/system/tbmenu/add",
-        param: $('#menuaddfrom').serializeJson(),
-        buttonid:'menuaddbutton',
-        callBack: function (data) {
-            console.log(data)
-            if (data==0){
-                $("#menuadd").modal("hide");
-                toastr_success("操作成功");
-                ss()
-            } else if (data==2) {
-                toastr_error("不允许创建三级菜单！");
-            }else{
-                toastr_error("操作失败！");
-            }
+    $("#menuaddfrom").data('bootstrapValidator').validate();
+    if ($("#menuaddfrom").data('bootstrapValidator').isValid()) {
+        new AjaxRequest({
+            url: "/system/tbmenu/add",
+            param: $('#menuaddfrom').serializeJson(),
+            buttonid: 'menuaddbutton',
+            callBack: function (data) {
+                console.log(data)
+                if (data == 0) {
+                    $("#menuadd").modal("hide");
+                    toastr_success("操作成功");
+                    ss()
+                } else if (data == 2) {
+                    toastr_error("不允许创建三级菜单！");
+                } else {
+                    toastr_error("操作失败！");
+                }
 
-        }
-    });
+            }
+        });
+    }
 })
 
 //修改
 $("#menueditbutton").click(function () {
-    new AjaxRequest({
-        url: "/system/tbmenu/edit",
-        param: $('#menueditfrom').serializeJson(),
-        buttonid:'menueditbutton',
-        callBack: function (data) {
-            if (data==true){
-                $("#menuedit").modal("hide");
-                toastr_success("操作成功");
-                ss()
-            } else {
-                toastr_error("操作失败！");
-            }
+    $("#menueditfrom").data('bootstrapValidator').validate();
+    if ($("#menueditfrom").data('bootstrapValidator').isValid()) {
+        new AjaxRequest({
+            url: "/system/tbmenu/edit",
+            param: $('#menueditfrom').serializeJson(),
+            buttonid: 'menueditbutton',
+            callBack: function (data) {
+                if (data == true) {
+                    $("#menuedit").modal("hide");
+                    toastr_success("操作成功");
+                    ss()
+                } else {
+                    toastr_error("操作失败！");
+                }
 
-        }
-    });
+            }
+        });
+    }
 })
 
 

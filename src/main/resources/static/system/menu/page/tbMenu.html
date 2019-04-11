@@ -69,7 +69,9 @@
                     <div class="form-group">
                         <label class="col-lg-2 control-label" >菜单排序</label>
                         <div class="col-lg-9">
-                            <input class="form-control" type="text" id="Sort_add" name="sort">
+                            <input class="form-control" type="text" id="Sort_add" name="sort" onkeyup="this.value=this.value.replace(/\D/g,'')"
+
+                                   onafterpaste="this.value=this.value.replace(/\D/g,'')">
                         </div>
                     </div>
                 </div>
@@ -135,7 +137,9 @@
                     <div class="form-group">
                         <label class="col-lg-2 control-label" >菜单排序</label>
                         <div class="col-lg-9">
-                            <input class="form-control" type="text" id="sort_edit" name="sort">
+                            <input class="form-control" type="text" id="sort_edit" name="sort" onkeyup="this.value=this.value.replace(/\D/g,'')"
+
+                                   onafterpaste="this.value=this.value.replace(/\D/g,'')">
                         </div>
                     </div>
                 </div>
@@ -177,3 +181,4 @@
 <script src="/static/assets/js/jquery.contextMenu.min.js"></script>
 
 <script src="/static/system/menu/js/tbMenu.js"></script>
+<script src="/static/system/menu/js/v.js"></script>

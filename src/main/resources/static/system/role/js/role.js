@@ -119,8 +119,8 @@ function roleInfo() {
 
 //修改
 $("#roleEditButton").click(function () {
-    // $("#contractCreationTemplateEditFrom").data('bootstrapValidator').validate();
-    // if ($("#contractCreationTemplateEditFrom").data('bootstrapValidator').isValid()) {
+    $("#roleEditFrom").data('bootstrapValidator').validate();
+    if ($("#roleEditFrom").data('bootstrapValidator').isValid()) {
         new AjaxRequest({
             url: "/role/tbRole/edit",
             param: $('#roleEditFrom').serializeJson(),
@@ -131,13 +131,13 @@ $("#roleEditButton").click(function () {
             modalid: 'roleEditModel',
             numberpage: true
         });
-   // }
+   }
 })
 
 //新增
 $("#roleAddButton").click(function () {
-    // $("#contractCreationTemplateEditFrom").data('bootstrapValidator').validate();
-    // if ($("#contractCreationTemplateEditFrom").data('bootstrapValidator').isValid()) {
+    $("#roleAddFrom").data('bootstrapValidator').validate();
+    if ($("#roleAddFrom").data('bootstrapValidator').isValid()) {
     new AjaxRequest({
         url: "/role/tbRole/save",
         param: $('#roleAddFrom').serializeJson(),
@@ -148,7 +148,7 @@ $("#roleAddButton").click(function () {
         modalid: 'roleAddModel',
         numberpage: true
     });
-    // }
+    }
 });
 
 $("#btn-add").click(function () {

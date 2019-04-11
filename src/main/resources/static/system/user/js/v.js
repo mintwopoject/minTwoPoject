@@ -21,7 +21,7 @@ function userAddValidator() {
                         regexp: /^[0-9a-zA_Z]+$/,
                         message: '输入内容不能为中文和包含其他非法字符'
                     },callback: {
-                        message: '该相关依据名称已经存在！',
+                        message: '该用户名已经存在！',
                         callback: function (value, validator) {
                             if (value == '') {
                                 return true;
@@ -144,7 +144,7 @@ function userEditValidator() {
                         regexp: /^[0-9a-zA_Z]+$/,
                         message: '输入内容不能为中文和包含其他非法字符'
                     },callback: {
-                        message: '该相关依据名称已经存在！',
+                        message: '该用户名已经存在！',
                         callback: function (value, validator) {
                             if (value == '') {
                                 return true;
