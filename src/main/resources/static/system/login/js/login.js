@@ -1,8 +1,8 @@
 
 $(document).ready(function(){
     $("#login").click(function () {
-        // $("#contractCreationTemplateEditFrom").data('bootstrapValidator').validate();
-        // if ($("#contractCreationTemplateEditFrom").data('bootstrapValidator').isValid()) {
+        $("#loginFrom").data('bootstrapValidator').validate();
+        if ($("#loginFrom").data('bootstrapValidator').isValid()) {
         new AjaxRequest({
             type: "post",
             url: "/sys/login",
@@ -11,6 +11,7 @@ $(document).ready(function(){
             callBack:function (data) {
                 if (data==0){
                     toastr_success("登陆成功");
+                    qingkong()
                     setTimeout(function(){window.location.replace("/static/main.html");}, 1000);
 
                 }else if (data==2) {
@@ -23,7 +24,7 @@ $(document).ready(function(){
                 }
             }
         });
-        // }
+        }
     })
 
 
