@@ -63,6 +63,8 @@ public class TbUser {
     private String HZType;
     @TableField(exist = false)
     private String [] roleids;
+    @TableField(exist = false)
+    private String validateCode;
 
     public Integer getId() {
         return Id;
@@ -198,5 +200,13 @@ public class TbUser {
 
     public void setRoleids(String[] roleids) {
         this.roleids = roleids;
+    }
+
+    public String getValidateCode() {
+        return validateCode;
+    }
+
+    public void setValidateCode(String validateCode) {
+        this.validateCode = validateCode;
     }
 }

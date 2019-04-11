@@ -2,6 +2,7 @@ package com.qujie.mintwo.system.login;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.qujie.mintwo.config.UserInterceptor;
+import com.qujie.mintwo.config.kaptcha.controller.MainController;
 import com.qujie.mintwo.system.user.entity.TbUser;
 import com.qujie.mintwo.system.user.service.ITbUserService;
 import com.qujie.mintwo.ustils.AbstractController;
@@ -19,14 +20,20 @@ public class LoginController extends AbstractController {
     private ITbUserService userService;
 
     @PostMapping("/sys/login")
-    public Boolean login(@RequestBody TbUser tbUser, HttpSession session){
+    public Integer login(@RequestBody TbUser tbUser, HttpSession session){
         TbUser tbUse1 = userService.selectOne(new EntityWrapper<TbUser>().eq("AccountName", tbUser.getAccountName()).eq("Password", MD5Utils.getMD5Code(tbUser.getPassword())));
+        String s = session.getAttribute(MainController.LOGIN_VALIDATE_CODE).toString();
         if (tbUse1!=null){
-            session.setAttribute(UserInterceptor.SESSION_KEY,tbUser.getAccountName());
-            AbstractController.USERNAME=session.getAttribute(UserInterceptor.SESSION_KEY).toString();
-            return true;
+            if (s.equals(tbUser.getValidateCode())){
+                session.setAttribute(UserInterceptor.SESSION_KEY,tbUser.getAccountName());
+                AbstractController.USERNAME=session.getAttribute(UserInterceptor.SESSION_KEY).toString();
+                return 0;//登陆成功
+            }else {
+                return 2;//验证码错误
+            }
+
         }else {
-            return false;
+            return 1;//用户名或密码不正确
         }
 
     }
