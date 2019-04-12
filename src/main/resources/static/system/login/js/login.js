@@ -11,8 +11,8 @@ $(document).ready(function(){
             callBack:function (data) {
                 if (data==0){
                     toastr_success("登陆成功");
-                    qingkong()
                     setTimeout(function(){window.location.replace("/static/main.html");}, 1000);
+                    qingkong()
 
                 }else if (data==2) {
                     toastr_warning("验证码不对，请重新输入")
