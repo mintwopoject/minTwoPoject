@@ -37,7 +37,6 @@ public class WebSecurityConfig extends WebMvcConfigurerAdapter{
     public void  addInterceptors(InterceptorRegistry registry){
         InterceptorRegistration addInterceptor = registry.addInterceptor(getSecurityInterceptor());
         List<String> list = new ArrayList();
-        System.out.println("注册拦截器");
         list.add("/login.html");
 //        list.add("/login");
         list.add("/system/login");
@@ -61,7 +60,6 @@ public class WebSecurityConfig extends WebMvcConfigurerAdapter{
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
-        System.out.println("123123123");
         super.addResourceHandlers(registry);
     }
 
