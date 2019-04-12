@@ -11,12 +11,12 @@ import com.qujie.mintwo.system.user.service.ITbUserService;
 import com.qujie.mintwo.ustils.AbstractController;
 import com.qujie.mintwo.ustils.PageUtil;
 import com.qujie.mintwo.ustils.R;
+import com.qujie.mintwo.ustils.redis.RedisUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,7 +32,8 @@ public class TbUserController  extends AbstractController {
 
     @Autowired
     private ITbUserService userService;
-
+    @Resource
+    private RedisUtils redisUtils;
 
     //用户列表
     @PostMapping("/userList")
@@ -108,11 +109,9 @@ public class TbUserController  extends AbstractController {
     }
 
     @RequestMapping("/AccountName")
-    public TbUser AccountName(HttpServletRequest request){
-        HttpSession session = null;
+    public TbUser AccountName(){
         try {
-            session = request.getSession();
-            String accountName =  session.getAttribute(WebSecurityConfig.SESSION_KEY).toString();
+            String accountName =  redisUtils.get(WebSecurityConfig.SESSION_KEY);
             TbUser tbUser = userService.selectOne(new EntityWrapper<TbUser>().eq("AccountName", accountName));
             return tbUser;
         } catch (Exception e) {

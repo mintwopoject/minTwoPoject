@@ -2,6 +2,7 @@ package com.qujie.mintwo.system.menu.controller;
 
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.qujie.mintwo.config.interceptor.WebSecurityConfig;
 import com.qujie.mintwo.system.menu.entity.Menu;
 import com.qujie.mintwo.system.menu.entity.TbMenu;
 import com.qujie.mintwo.system.menu.service.ITbMenuService;
@@ -12,15 +13,14 @@ import com.qujie.mintwo.system.user.service.ITbUserService;
 import com.qujie.mintwo.system.userRole.entity.TbUserRole;
 import com.qujie.mintwo.system.userRole.service.ITbUserRoleService;
 import com.qujie.mintwo.ustils.AbstractController;
+import com.qujie.mintwo.ustils.redis.RedisUtils;
 import net.sf.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.xml.crypto.Data;
-import java.time.LocalDateTime;
 import java.util.*;
 
 
@@ -45,6 +45,8 @@ public class TbMenuController extends AbstractController {
 
     @Autowired
     private ITbUserRoleService userRoleService;
+    @Resource
+    private RedisUtils redisUtils;
 
     @RequestMapping("/menuList")
     public List<TbMenu> menuList(){
@@ -62,7 +64,7 @@ public class TbMenuController extends AbstractController {
         HttpSession session = null;
         try {
             session = request.getSession();
-            Object accountName = session.getAttribute("AccountName");
+            String accountName = redisUtils.get(WebSecurityConfig.SESSION_KEY);
             TbUser tbUser = userService.selectOne(new EntityWrapper<TbUser>().eq("AccountName", accountName));
             //所有角色
             List<Integer> list3 = new ArrayList<>();

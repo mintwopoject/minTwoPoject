@@ -7,11 +7,12 @@ import com.qujie.mintwo.system.user.entity.TbUser;
 import com.qujie.mintwo.system.user.service.ITbUserService;
 import com.qujie.mintwo.ustils.AbstractController;
 import com.qujie.mintwo.ustils.MD5Utils;
+import com.qujie.mintwo.ustils.redis.RedisUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
@@ -24,10 +25,13 @@ public class LoginController {
     @Autowired
     private ITbUserService userService;
 
-    @GetMapping("/")
-    public String index(@SessionAttribute(WebSecurityConfig.SESSION_KEY)String account, Model model){
-        return "main.html";
-    }
+    @Resource
+    private  RedisUtils redisUtils;
+
+//    @GetMapping("/")
+//    public String index(@SessionAttribute(WebSecurityConfig.SESSION_KEY)String account, Model model){
+//        return "main.html";
+//    }
 
 
     @PostMapping("/loginVerify")
@@ -36,8 +40,8 @@ public class LoginController {
         String s = session.getAttribute(MainController.LOGIN_VALIDATE_CODE).toString();
         if (tbUse1!=null){
             if (s.equals(validateCode)){
-                session.setAttribute(WebSecurityConfig.SESSION_KEY,accountName);
-                AbstractController.USERNAME=session.getAttribute(WebSecurityConfig.SESSION_KEY).toString();
+                redisUtils.set(WebSecurityConfig.SESSION_KEY,accountName);
+                AbstractController.USERNAME=redisUtils.get(WebSecurityConfig.SESSION_KEY).toString();
                 response.sendRedirect("/main.html");
 //                return 1;//登陆成更
             }else {
@@ -54,7 +58,7 @@ public class LoginController {
 
     @GetMapping("/logout")
     public String logout(HttpSession session){
-        session.removeAttribute(WebSecurityConfig.SESSION_KEY);
+        redisUtils.delete(WebSecurityConfig.SESSION_KEY);
         return "redirect:/login.html";
     }
 
