@@ -5,15 +5,18 @@ package com.qujie.mintwo.system.user.controller;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.qujie.mintwo.config.interceptor.WebSecurityConfig;
 import com.qujie.mintwo.system.user.entity.TbUser;
 import com.qujie.mintwo.system.user.service.ITbUserService;
 import com.qujie.mintwo.ustils.AbstractController;
 import com.qujie.mintwo.ustils.PageUtil;
 import com.qujie.mintwo.ustils.R;
-import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -103,5 +106,20 @@ public class TbUserController  extends AbstractController {
         }
 
     }
+
+    @RequestMapping("/AccountName")
+    public TbUser AccountName(HttpServletRequest request){
+        HttpSession session = null;
+        try {
+            session = request.getSession();
+            String accountName =  session.getAttribute(WebSecurityConfig.SESSION_KEY).toString();
+            TbUser tbUser = userService.selectOne(new EntityWrapper<TbUser>().eq("AccountName", accountName));
+            return tbUser;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+
 
 }

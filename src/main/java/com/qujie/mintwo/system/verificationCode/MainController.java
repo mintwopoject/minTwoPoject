@@ -1,4 +1,4 @@
-package com.qujie.mintwo.config.kaptcha.controller;
+package com.qujie.mintwo.system.verificationCode;
 
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.qujie.mintwo.ustils.CommonUtil;
@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 
 @Controller
+@RequestMapping(value = "/vercode")
 public class MainController {
 
     @Resource

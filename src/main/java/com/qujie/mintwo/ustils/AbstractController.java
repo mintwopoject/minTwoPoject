@@ -1,10 +1,11 @@
 package com.qujie.mintwo.ustils;
 
 import com.qujie.mintwo.config.SystemConfig;
-import com.qujie.mintwo.config.UserInterceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -20,6 +21,7 @@ import java.util.Map;
 /**
  * Controller公共组件
  */
+@RestController
 public abstract class AbstractController {
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -29,10 +31,6 @@ public abstract class AbstractController {
 	public static String USERNAME;
 
 
-	protected HttpSession getSession(){
-		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-		return request.getSession();
-	}
 
 
 	/**
