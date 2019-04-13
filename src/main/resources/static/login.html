@@ -4,85 +4,94 @@
     <meta charset="UTF-8">
 
     <title>小二管理系统-登陆</title>
-    </head>
-        <script src="/static/lib/public/publicCSS.js"></script>
-    <style>
+</head>
+<link rel='stylesheet' href='lib/base.css'>
+<script src="/static/lib/public/publicCSS.js"></script>
+<style>
 
-        .back-image{
+    body{
+        color:#333;
+        font-size:13px;
+    }
+    input,select,textarea{
+        color:#333;
+    }
+    .bg{
+        width:100%; height:100%;
+        position:absolute;
+        background:url(assets/avatars/bg.jpg)
+    }
+    .panel{
+        background:#fff;
+    }
+    form .form-group:last-child{
+        padding-bottom:0;
+    }
+    .passcode{
+        position:absolute;
+        right:0;bottom:0;
+        height:32px;
+        margin:1px;
+        border-left:solid 1px #ddd;
+        text-align:center;
+        line-height:32px;
+        border-radius:0 4px 4px 0;
+    }
+    ul,li{
+        list-style-type:none;
+    }
 
-        }
-        .login-block{
-            width:30%;
-            height: 35%;
-            margin: 100px auto;
-
-        }
-
-        h1{
-            text-align:center ;
-            align-content: center;
-        }
-        #login{
-            width: 30%;
-            height: 40px;
-            margin-left: 35%;
-            margin-bottom: 10%;
-            background-color: grey; /* Green */
-            border: none;
-            color: white;
-            border-radius: 8px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            outline: none;
-            /*box-shadow: 2px 2px 4px grey;*/
-        }
-        body{
-            background-image: url("assets/avatars/beijin.jpg");
-            background-size: cover;
-        }
-    </style>
+    .field-icon-right .icon{
+        bottom:0px;
+        top:auto;
+    }
+    .loginbox {
+        background:url(assets/avatars/tmbg-white.png);
+        border:0px;
+    }
+</style>
 
 </head>
 <body><script src="/static/lib/public/publicJS_1.js"></script>
-<div class="back-image">
-    <h1>小二外卖管理系统</h1>
-    <div class="login-block">
-        <form id="loginFrom" name="form" accept-charset="utf-8"  action="/loginVerify" method="POST">
-                <div class="form-group">
-                    <label class="col-lg-3 control-label" >用户名</label>
-                    <div class="col-lg-9">
-                        <input style="opacity:0.7;" type="text" class="account form-control" id="AccountName" name="accountName" placeholder="请输入账号">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-lg-12 control-label" ></label>
-                </div>
-                <div class="form-group">
-                    <label class="col-lg-3 control-label" >密码</label>
-                    <div class="col-lg-9">
-                        <input style="opacity:0.7;" type=password class="password form-control" id="Password" name="password" placeholder="请输入密码">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-lg-12 control-label" ></label>
-                </div>
-                <div class="form-group">
-                    <label class="col-lg-3 control-label" >验证码</label>
-                    <div class="col-lg-5">
-                        <input style="opacity:0.7;" class="account form-control" type="text" id="validateCode" name="validateCode" placeholder="请输入验证码" />
-                    </div>
-                    <div class="col-lg-4" style="margin-left: -40px">
-                        <img title="看不清，换一张" id="loginValidateCode" height="40" width="150"  style="cursor: pointer;" src="/vercode/loginValidateCode" onclick="uploadLoginValidateCode();">
-                    </div>
-                </div>
-            <div class="form-group">
-                <input type="submit" id="login" class="btn btn-primary" value="登录"/>
+<div class="bg"></div>
+<div class="container">
+    <div class="line bouncein">
+        <div class="xs6 xm4 xs3-move xm4-move">
+            <div style="height:150px;"></div>
+            <div class="media media-y margin-big-bottom">
             </div>
-        </form>
+            <form id="loginFrom" name="form" accept-charset="utf-8"  action="/loginVerify" method="POST">
+                <div class="panel loginbox">
+                    <div class="text-center margin-big padding-big-top">
+                        <h2>小二外卖后台管理中心</h2>
+                    </div>
+                    <div class="panel-body" style="padding:30px; padding-bottom:10px; padding-top:10px;">
+                        <div class="form-group">
+                            <div class="field field-icon-right">
+                                <input type="text" class="input input-big" id="AccountName" name="accountName"  placeholder="登录账号" />
+                                <span class="icon icon-user margin-small"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="field field-icon-right">
+                                <input type="password" class="input input-big" id="Password" name="password"   placeholder="登录密码" />
+                                <span class="icon icon-key margin-small"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="field">
+                                <input type="text" class="input input-big" id="validateCode" name="validateCode" placeholder="填写右侧的验证码" />
 
-
+                                <img title="看不清，换一张" alt="" id="loginValidateCode" height="34" width="100" class="passcode"  style="height:44px;cursor:pointer;" src="/vercode/loginValidateCode" onclick="uploadLoginValidateCode();">
+                            </div>
+                        </div>
+                    </div>
+                    <div style="padding:30px;">
+                        <input type="submit" id="login" class="button button-block bg-main text-big input-big" value="登录">
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 </body>

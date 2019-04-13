@@ -13,6 +13,8 @@ document.write(" <link rel='stylesheet' href='/static/lib/bootstrap/bootstrap-da
 
 document.write(" <link rel='stylesheet' href='/static/lib/fileUpload/css/fileinput.css'>");
 document.write(" <link rel='stylesheet' href='/static/lib/fileUpload/themes/explorer-fas/theme.css'>");
+// document.write(" <link rel='stylesheet' href='/static/lib/base.css'>");
+
 document.write(" <style>\n" +
     ".colStyle {\n" +
     "    text-overflow: ellipsis;\n" +
