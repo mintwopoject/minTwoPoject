@@ -164,8 +164,12 @@ $("#daochu").click(function () {
     selectId("roleList");
 });
 
+$("#daoru").click(function () {
+    $("#importModel").modal('show')
+})
 
-$("#daoru").click(function(){
+
+$("#importButton").click(function(){
     var formdata = new FormData($("#form_table")[0]);
     $.ajax({
         url: "/ustils/Excel/import",
@@ -175,7 +179,8 @@ $("#daoru").click(function(){
         processData: false,  // 告诉jQuery不要去处理发送的数据
         contentType: false,   // 告诉jQuery不要去设置Content-Type请求头
         success: function (res) {
-
+            $("#importModel").modal('hide')
+            $('#form_table')[0].reset();
         }
     })
 })
