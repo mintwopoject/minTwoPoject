@@ -92,7 +92,7 @@
 								<li class="divider"></li>
 
 								<li>
-									<a id="logout" href="/logout">
+									<a id="logout" href="">
 										<i class="icon-off"></i>
 										退出
 									</a>
@@ -277,11 +277,14 @@
 					$("#accountName").html(data.realName)
 				}
 			})
-			// $("#logout").click(function () {
-			// 	$.ajax({
-			// 		url:"/system/tbUser/logout",
-			// 	})
-			// })
+			$("#logout").click(function () {
+				$.ajax({
+					url:"/logout",
+					success:function () {
+						$('#logout').attr('href','/login.html');
+					}
+				})
+			})
 			
 		</script>
 </body>

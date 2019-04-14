@@ -2,6 +2,7 @@ package com.qujie.mintwo.system.role.controller;
 
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.qujie.mintwo.config.interceptor.WebSecurityConfig;
 import com.qujie.mintwo.system.role.entity.TbRole;
 import com.qujie.mintwo.system.role.service.ITbRoleService;
 import com.qujie.mintwo.system.roleMenu.entity.TbRoleMenu;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -51,8 +53,8 @@ public class TbRoleController extends AbstractController {
     }
     //角色修改
     @RequestMapping("/edit")
-    public R edit(@RequestBody TbRole role){
-        boolean b = roleService.updateByIds(role,USERNAME);
+    public R edit(@RequestBody TbRole role, HttpSession session){
+        boolean b = roleService.updateByIds(role,session.getAttribute(WebSecurityConfig.SESSION_KEY).toString());
         if (b==true){
             return R.ok("操作成功");
         }else {
@@ -74,8 +76,8 @@ public class TbRoleController extends AbstractController {
 
     //角色新增
     @RequestMapping("/save")
-    public R save(@RequestBody TbRole role){
-        boolean b = roleService.saves(role,USERNAME);
+    public R save(@RequestBody TbRole role,HttpSession session){
+        boolean b = roleService.saves(role,session.getAttribute(WebSecurityConfig.SESSION_KEY).toString());
         if (b==true){
             return R.ok("操作成功");
         }else {

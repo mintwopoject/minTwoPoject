@@ -64,7 +64,7 @@ public class TbMenuController extends AbstractController {
         HttpSession session = null;
         try {
             session = request.getSession();
-            String accountName = redisUtils.get(WebSecurityConfig.SESSION_KEY);
+            String accountName = session.getAttribute(WebSecurityConfig.SESSION_KEY).toString();
             TbUser tbUser = userService.selectOne(new EntityWrapper<TbUser>().eq("AccountName", accountName));
             //所有角色
             List<Integer> list3 = new ArrayList<>();
@@ -95,7 +95,7 @@ public class TbMenuController extends AbstractController {
             List<TbMenu> tbMenus = tbMenuService.navList(list2);
             JSONArray jsonArray = JSONArray.fromObject(tbMenus);
 
-            return jsonArray;
+            return tbMenus;
         } catch (Exception e) {
             return null;
         }
@@ -132,9 +132,9 @@ public class TbMenuController extends AbstractController {
      * 新增菜单
      */
     @RequestMapping("/add")
-    public Integer add(@RequestBody TbMenu tbMenu){
+    public Integer add(@RequestBody TbMenu tbMenu,HttpSession session){
         tbMenu.setCreateTime(new Date());
-        tbMenu.setCreateBy(USERNAME);
+        tbMenu.setCreateBy(session.getAttribute(WebSecurityConfig.SESSION_KEY).toString());
         TbMenu tbMenu1 = tbMenuService.selectOne(new EntityWrapper<TbMenu>().eq("Id", tbMenu.getParentId()));
         if (tbMenu1.getParentId()!=0){
             return 2;//不允许创建三级菜单
@@ -151,9 +151,9 @@ public class TbMenuController extends AbstractController {
      * 修改菜单
      */
     @RequestMapping("/edit")
-    public boolean edit(@RequestBody TbMenu tbMenu){
+    public boolean edit(@RequestBody TbMenu tbMenu,HttpSession session){
         tbMenu.setUpdateTime(new Date());
-        tbMenu.setUpdateBy(USERNAME);
+        tbMenu.setUpdateBy(session.getAttribute(WebSecurityConfig.SESSION_KEY).toString());
         boolean update = tbMenuService.updateById(tbMenu);
         if (update==true){
             return true;

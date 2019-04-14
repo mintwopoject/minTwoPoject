@@ -1,6 +1,7 @@
 package com.qujie.mintwo.ustils;
 
 import com.qujie.mintwo.config.SystemConfig;
+import com.qujie.mintwo.config.interceptor.WebSecurityConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,15 @@ public abstract class AbstractController {
 	@Autowired
 	private SystemConfig systemConfig;
 
+//	private HttpSession session;
+
 	public static String USERNAME;
+
+//	public String  userName(){
+//		String s = session.getAttribute(WebSecurityConfig.SESSION_KEY).toString();
+//		return s;
+//	}
+
 
 
 

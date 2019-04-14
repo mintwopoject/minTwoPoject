@@ -69,7 +69,7 @@ public class WebSecurityConfig extends WebMvcConfigurerAdapter{
         public boolean preHandle(HttpServletRequest request, HttpServletResponse response,Object handler) throws IOException {
 
 //            判断是否已有该用户登录的key
-            if(redisUtils.get(SESSION_KEY) != null){
+            if(request.getSession().getAttribute(SESSION_KEY) != null){
                 return true;
             }
 

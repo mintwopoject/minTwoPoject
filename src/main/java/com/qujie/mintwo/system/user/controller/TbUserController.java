@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -50,8 +51,8 @@ public class TbUserController  extends AbstractController {
     }
     //用户修改
     @RequestMapping("/edit")
-    public R edit(@RequestBody String request){
-        boolean edit = userService.edit(request,USERNAME);
+    public R edit(@RequestBody String request,HttpSession session){
+        boolean edit = userService.edit(request,session.getAttribute(WebSecurityConfig.SESSION_KEY).toString());
         if (edit==true){
             return R.ok("操作成功");
         }else {
@@ -61,8 +62,8 @@ public class TbUserController  extends AbstractController {
 
     //用户新增
     @RequestMapping("/save")
-    public R save(@RequestBody String request){
-        boolean save = userService.save(request,USERNAME);
+    public R save(@RequestBody String request,HttpSession session){
+        boolean save = userService.save(request,session.getAttribute(WebSecurityConfig.SESSION_KEY).toString());
         if (save==true){
             return R.ok("操作成功");
         }else {
@@ -109,9 +110,9 @@ public class TbUserController  extends AbstractController {
     }
 
     @RequestMapping("/AccountName")
-    public TbUser AccountName(){
+    public TbUser AccountName(HttpSession session){
         try {
-            String accountName =  redisUtils.get(WebSecurityConfig.SESSION_KEY);
+            String accountName =  session.getAttribute(WebSecurityConfig.SESSION_KEY).toString();
             TbUser tbUser = userService.selectOne(new EntityWrapper<TbUser>().eq("AccountName", accountName));
             return tbUser;
         } catch (Exception e) {

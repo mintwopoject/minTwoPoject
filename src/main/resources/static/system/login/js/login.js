@@ -26,3 +26,31 @@
 function uploadLoginValidateCode() {
     $("#loginValidateCode").attr("src","/vercode/loginValidateCode?random="+new Date().getMilliseconds());
 }
+$(function () {
+    $("#login").click(function () {
+        $.ajax({
+            url:"/loginVerify",
+            type:"post",
+            data:{
+                accountName:$("#AccountName").val(),
+                password:$("#Password").val(),
+                validateCode:$("#validateCode").val()
+            },
+            success:function (data) {
+                console.log(data);
+                if(data.status){
+                    toastr_success("登录成功")
+                    window.location.href="/main.html";
+                    // localStorage.setItem("accountName",data.data);
+                }else if (data.message=='2') {
+                    toastr_error("用户名或密码错!");
+                    uploadLoginValidateCode();
+                }else {
+                    toastr_error("验证码错误!");
+                    uploadLoginValidateCode();
+                }
+            }
+        })
+
+    })
+})
