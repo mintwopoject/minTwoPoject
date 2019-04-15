@@ -42,9 +42,16 @@ public class TbUserServiceImpl extends ServiceImpl<TbUserMapper, TbUser> impleme
     private ITbUserRoleService tbUserRoleService;
     @Override
     public PageUtil userList(Map<String, Object> params) {
-        String sql ="select * from ( \n" +
-                "select *, ROW_NUMBER() OVER(Order by id) AS RowId from tbUser \n" +
-                ") as b where 1=1 ";
+        Object accountName = params.get("accountName_search");
+        Object realName = params.get("realName_search");
+        String sql ="select * from (select *, ROW_NUMBER() OVER(Order by id) AS RowId from tbUser ";
+        if (CheckUtils.isNotNull(accountName)){
+            sql+=" where AccountName like '%"+accountName+"%'";
+        }
+        if (CheckUtils.isNotNull(realName)){
+            sql += " and RealName like '%"+realName+"%'";
+        }
+        sql+=") as b where 1=1 ";
         BetweenUtils.setFENYE(" and RowId ");
         return daoUtils.findBySql(sql, PageUtilsFactory.getInstance(params));
     }

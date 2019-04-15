@@ -1,5 +1,11 @@
 var selecttableid;
 var currentpagecount;
+
+//查询条件
+var accountName_search="";
+var realName_search="";
+
+
 $(document).ready(function(){
 
     window.operateEvents = {
@@ -38,7 +44,9 @@ $(document).ready(function(){
             currentpagecount = ((params.offset / params.limit) + 1)
             //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
             var temp = {
-                "currentpagecount": "" + ((params.offset / params.limit) + 1) + "" //页码
+                "currentpagecount": "" + ((params.offset / params.limit) + 1) + "" ,//页码
+                "realName_search":""+realName_search+"",
+                "accountName_search":""+accountName_search+""
             };
 
             return temp;
@@ -125,6 +133,19 @@ $(document).ready(function(){
     };
 
 });
+
+//查询条件
+$("#usersearchbutton").click(function () {
+    accountName_search=$("#accountName_search").val();
+    realName_search=$("#realName_search").val();
+    $("#userList").bootstrapTable('refreshOptions',
+        {   pageNumber:1,
+            accountName_search:accountName_search,
+            realName_search:realName_search
+        });
+})
+
+
 //单条
 function userInfo() {
     new AjaxRequest({
