@@ -166,4 +166,18 @@ public class TbUserServiceImpl extends ServiceImpl<TbUserMapper, TbUser> impleme
         }
     }
 
+    /**
+     * 多表查询示例
+     *     @Override
+     *     public TbUser selectById_(Integer id) {
+     *         String sql ="select \n" +
+     *                 "a.*,a.id contract_id,b.scan_copy_of_contract_accessories_uuid\n" +
+     *                 "from tb_contract as a\n" +
+     *                 "left join tb_contract_sign_the_register as b on a.id=b.contract_id\n" +
+     *                 "where a.del_flag=0 and a.id="+id+"";
+     *         return daoUtils.findBySqlToBean(sql,TbUser.class);
+     *     }
+     */
+
+
 }

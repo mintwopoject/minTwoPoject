@@ -92,7 +92,7 @@
 								<li class="divider"></li>
 
 								<li>
-									<a id="logout" href="">
+									<a id="logout" href="/login.html">
 										<i class="icon-off"></i>
 										退出
 									</a>
@@ -281,7 +281,8 @@
 				$.ajax({
 					url:"/logout",
 					success:function () {
-						$('#logout').attr('href','/login.html');
+						// console.log("denglu:"+data)
+						// $('#logout').attr('href','/login.html');
 					}
 				})
 			})

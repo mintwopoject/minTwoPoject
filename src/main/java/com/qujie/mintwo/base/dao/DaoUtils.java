@@ -1,6 +1,8 @@
 package com.qujie.mintwo.base.dao;
 
 import com.qujie.mintwo.ustils.BetweenUtils;
+import com.qujie.mintwo.ustils.CheckUtils;
+import com.qujie.mintwo.ustils.MapToBean;
 import com.qujie.mintwo.ustils.PageUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,5 +87,18 @@ public class DaoUtils<T> {
         if(x==-1||x==-99){return null;}
         String t=sql.substring(x,sql.length());
         return "select count(*)as listcount "+t;
+    }
+    //转对象
+    public T findBySqlToBean(String sql ,Class clazz){
+        List<Map> bySql = baseDao.findBySql(sql);
+        if(CheckUtils.isNotNull(bySql)){
+            try {
+                return (T) MapToBean.transMapToBean(bySql.get(0),clazz);
+//                return  (T)MapAndObject.mapToObject(bySql.get(0), clazz);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
 }
