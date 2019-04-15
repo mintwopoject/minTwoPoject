@@ -47,9 +47,6 @@ public class DaoUtils<T> {
         return bySql;
     }
 
-
-
-
     private  String sql(String sql,String str){
         if(str==null || "".equals(str)){return sql;}
         String tempsql="";
@@ -75,9 +72,6 @@ public class DaoUtils<T> {
         return sql+" "+str+" "+tempsql;
     }
 
-
-
-
     private  String select_count(String sql){
         int x=-99;
         x = sql.indexOf("from");
@@ -88,7 +82,8 @@ public class DaoUtils<T> {
         String t=sql.substring(x,sql.length());
         return "select count(*)as listcount "+t;
     }
-    //转对象
+
+    //sql转bean
     public T findBySqlToBean(String sql ,Class clazz){
         List<Map> bySql = baseDao.findBySql(sql);
         if(CheckUtils.isNotNull(bySql)){

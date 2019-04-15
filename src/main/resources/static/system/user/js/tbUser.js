@@ -227,7 +227,7 @@ $("#daochu").click(function () {
     selectId("userList");
 });
 
-
+//权限
 function getRoleAll(inpId ,state){
     var select = $("#"+inpId);
     //回到初始状态
@@ -245,7 +245,7 @@ function getRoleAll(inpId ,state){
             for(var i =0;i<results.length;i++){
                 select.append("<option class='form-control' value='"+results[i].id+"'>"+results[i].roleName+"</option>");
             }
-            if(state == 'update'){
+            if(state == 'update'){//修改操作
                 new AjaxRequest({
                     url:   "/system/tbUser/getUserRole/"+selecttableid,
                     asynctype:false,

@@ -109,6 +109,7 @@ public class TbUserController  extends AbstractController {
 
     }
 
+    //获取当前登陆人
     @RequestMapping("/AccountName")
     public TbUser AccountName(HttpSession session){
         try {

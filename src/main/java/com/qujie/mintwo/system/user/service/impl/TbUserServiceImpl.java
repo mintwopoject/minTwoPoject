@@ -40,6 +40,7 @@ public class TbUserServiceImpl extends ServiceImpl<TbUserMapper, TbUser> impleme
     private ITbUserService tbUserService;
     @Autowired
     private ITbUserRoleService tbUserRoleService;
+    //列表
     @Override
     public PageUtil userList(Map<String, Object> params) {
         Object accountName = params.get("accountName_search");
@@ -55,6 +56,7 @@ public class TbUserServiceImpl extends ServiceImpl<TbUserMapper, TbUser> impleme
         BetweenUtils.setFENYE(" and RowId ");
         return daoUtils.findBySql(sql, PageUtilsFactory.getInstance(params));
     }
+    //修改
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean edit(String request,String USERNAME) {
@@ -103,7 +105,7 @@ public class TbUserServiceImpl extends ServiceImpl<TbUserMapper, TbUser> impleme
 
     }
 
-
+    //新增
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean save(String request,String USERNAME) {
@@ -155,7 +157,7 @@ public class TbUserServiceImpl extends ServiceImpl<TbUserMapper, TbUser> impleme
         map.put("roleIds",list);
         return R.ok(map);
     }
-
+    //用户名唯一校验
     @Override
     public boolean checkName(Object name, Object id) {
         String sql = "select count(*) count from tbUser where AccountName = ";
