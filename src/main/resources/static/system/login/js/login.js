@@ -28,6 +28,8 @@ function uploadLoginValidateCode() {
 }
 $(function () {
     $("#login").click(function () {
+                $("#loginFrom").data('bootstrapValidator').validate();
+        if ($("#loginFrom").data('bootstrapValidator').isValid()) {
         $.ajax({
             url:"/loginVerify",
             type:"post",
@@ -51,6 +53,6 @@ $(function () {
                 }
             }
         })
-
+        }
     })
 })
